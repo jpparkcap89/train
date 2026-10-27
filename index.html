@@ -177,17 +177,26 @@ footer{padding-block:40px 48px;text-align:center;font-size:13px;color:var(--mute
 /* loading: 아래 페이지를 흐리게 가리고 게이지가 차오릅니다 */
 .wrap>*:not(header.top){transition:filter .7s var(--ux-ease),opacity .7s var(--ux-ease)}
 body.is-loading .wrap>*:not(header.top){filter:blur(10px) saturate(.8);opacity:.55;pointer-events:none;user-select:none}
-.ld{position:fixed;inset:0;z-index:30;display:grid;place-items:center;pointer-events:none;opacity:0;visibility:hidden;transition:opacity .5s var(--ux-ease),visibility .5s}
+.ld{position:fixed;inset:0;z-index:30;display:grid;place-items:center;padding:16px;pointer-events:none;opacity:0;visibility:hidden;transition:opacity .5s var(--ux-ease),visibility .5s}
 body.is-loading .ld{opacity:1;visibility:visible}
-.ld-card{display:flex;flex-direction:column;align-items:center;gap:14px;padding:26px 30px;border-radius:28px;background:var(--panel);border:1px solid var(--panel-line);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:var(--shadow)}
-.ld-jar{position:relative;width:76px;height:76px;border-radius:50%;overflow:hidden;background:var(--ux-surface-2);box-shadow:inset 0 0 0 2px var(--pill-line)}
-.ld-fill{position:absolute;left:-50%;right:-50%;bottom:0;height:calc(var(--p,0) * 1%);background:var(--head-grad);transition:height .45s var(--ux-ease)}
-.ld-fill::before,.ld-fill::after{content:"";position:absolute;left:0;right:0;top:-14px;height:28px;border-radius:45%;background:var(--ux-surface-2);animation:ld-wave 2.4s linear infinite}
-.ld-fill::after{opacity:.5;border-radius:40%;animation-duration:3.6s}
-@keyframes ld-wave{to{transform:rotate(360deg)}}
-.ld-pct{position:absolute;inset:0;display:grid;place-items:center;font-size:15px;font-weight:850;color:var(--ink);font-variant-numeric:tabular-nums;text-shadow:0 1px 6px var(--ux-surface)}
-.ld-msg{font-size:14px;font-weight:700;color:var(--muted)}
-@media (prefers-reduced-motion:reduce){.ld-fill::before,.ld-fill::after{animation:none}.wrap>*:not(header.top){transition:none}}
+.ld-card{position:relative;width:min(400px,100%);border-radius:30px;overflow:hidden;text-align:center;background:linear-gradient(160deg,rgba(255,255,255,.92),rgba(236,244,255,.9) 55%,rgba(240,236,255,.9));border:1px solid var(--panel-line);box-shadow:0 30px 70px -20px rgba(67,89,146,.35);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.ld-card::before{content:"";position:absolute;inset:0 0 auto;height:56px;background:linear-gradient(170deg,rgba(255,255,255,.75),rgba(255,255,255,0));transform:skewY(-4deg);transform-origin:left;pointer-events:none}
+.ld-top{position:relative;padding:34px 28px 22px}
+.ld-icon{position:relative;display:inline-grid;place-items:center;width:64px;height:64px;border-radius:20px;background:var(--ux-surface);box-shadow:0 10px 24px -10px rgba(59,99,246,.45);font-size:34px;animation:ld-bob 1.8s ease-in-out infinite}
+.ld-icon i{position:absolute;right:-10px;top:-8px;font-style:normal;font-size:18px;animation:ld-twinkle 1.8s ease-in-out infinite}
+@keyframes ld-bob{50%{transform:translateY(-6px) rotate(-3deg)}}
+@keyframes ld-twinkle{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.1)}}
+.ld-title{margin:16px 0 0;font-size:21px;font-weight:850;letter-spacing:-.03em;color:#24324a}
+.ld-sub{margin:6px 0 0;font-size:14px;color:#667085}
+.ld-pct{margin:16px 0 0;font-size:38px;font-weight:850;letter-spacing:-.03em;color:#24324a;font-variant-numeric:tabular-nums;line-height:1}
+.ld-bar{height:8px;margin:16px 6px 0;border-radius:99px;background:rgba(36,50,74,.08);overflow:hidden}
+.ld-bar i{display:block;height:100%;width:calc(var(--p,0) * 1%);border-radius:inherit;background:linear-gradient(90deg,#3b63f6,#38bdf8 60%,#f59e0b);transition:width .45s var(--ux-ease);position:relative}
+.ld-bar i::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);animation:ld-shine 1.4s linear infinite}
+@keyframes ld-shine{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+.ld-foot{position:relative;padding:16px 20px 18px;background:linear-gradient(120deg,rgba(127,216,201,.55),rgba(142,156,255,.45));font-size:13.5px;font-weight:700;color:#24324a;min-height:52px}
+.ld-foot span{display:inline-block;animation:ld-in .45s var(--ux-ease)}
+@keyframes ld-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.ld-icon,.ld-icon i,.ld-bar i::after,.ld-foot span{animation:none}.wrap>*:not(header.top){transition:none}}
 [hidden]{display:none!important}
 @media (min-width:1025px){.wrap{max-width:none;width:85%;padding-left:0;padding-right:0}}
 .stage{min-height:200px}
@@ -312,7 +321,16 @@ body.is-admin footer{padding-bottom:110px}
 
 <div class="blobs" aria-hidden="true"><div class="blob a"></div><div class="blob b"></div><div class="blob c"></div></div>
 <script>window.LXQ = []; document.body.classList.add('is-loading');</script>
-<div class="ld" id="ld" role="status" aria-live="polite"><div class="ld-card"><div class="ld-jar"><div class="ld-fill" id="ld-fill"></div><span class="ld-pct" id="ld-pct">0%</span></div><p class="ld-msg" id="ld-msg">연수 정보를 불러오는 중…</p></div></div>
+<div class="ld" id="ld" role="status" aria-live="polite"><div class="ld-card">
+  <div class="ld-top">
+    <span class="ld-icon" aria-hidden="true">🧑‍🏫<i>✨</i></span>
+    <p class="ld-title">연수실 문을 여는 중</p>
+    <p class="ld-sub">선생님을 위한 배움의 자리를 준비하고 있어요</p>
+    <p class="ld-pct" id="ld-pct">0%</p>
+    <div class="ld-bar"><i id="ld-fill"></i></div>
+  </div>
+  <div class="ld-foot"><span id="ld-msg">연수 일정을 펼치고 있어요</span></div>
+</div></div>
 
 <div class="wrap">
   <header class="top">
@@ -1039,17 +1057,20 @@ var SITEKIT = (function () {
 
   /* ---------- 처음 불러오기 ---------- */
   var loader = (function () {
-    var p = 0, timer = null, fill = $('ld-fill'), pct = $('ld-pct');
+    var p = 0, timer = null, msgTimer = null, fill = $('ld-fill'), pct = $('ld-pct'), msg = $('ld-msg');
+    var MSGS = ['연수 일정을 펼치고 있어요', '회차별 수업안을 챙기는 중이에요', '출석부를 가지런히 정리하고 있어요', '선생님들의 후기를 모으고 있어요', '남은 자리를 세어 보고 있어요', '연수실 불을 켜는 중이에요'];
     function set(v) { p = v; fill.style.setProperty('--p', v); pct.textContent = Math.round(v) + '%'; }
+    function say(t) { var s = document.createElement('span'); s.textContent = t; msg.replaceWith(s); s.id = 'ld-msg'; msg = s; }
     return {
       begin: function () {
-        document.body.classList.add('is-loading'); set(4);
+        document.body.classList.add('is-loading'); set(3);
         // 응답이 올 때까지 92%까지 점점 느리게 차오릅니다
-        timer = setInterval(function () { set(p + (92 - p) * 0.08); }, 160);
+        timer = setInterval(function () { set(p + (92 - p) * 0.07); }, 160);
+        var i = 0; msgTimer = setInterval(function () { i = (i + 1) % MSGS.length; say(MSGS[i]); }, 1300);
       },
       done: function () {
-        clearInterval(timer); set(100);
-        setTimeout(function () { document.body.classList.remove('is-loading'); }, 380);
+        clearInterval(timer); clearInterval(msgTimer); set(100); say('준비가 끝났어요. 어서 오세요!');
+        setTimeout(function () { document.body.classList.remove('is-loading'); }, 450);
       }
     };
   })();
