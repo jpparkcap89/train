@@ -197,6 +197,25 @@ body.is-loading .ld{opacity:1;visibility:visible}
 .ld-foot span{display:inline-block;animation:ld-in .45s var(--ux-ease)}
 @keyframes ld-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.ld-icon,.ld-icon i,.ld-bar i::after,.ld-foot span{animation:none}.wrap>*:not(header.top){transition:none}}
+
+/* 한 겹 카드: 유리 카드 안의 Lucian 요소는 배경·그림자 없이 카드 폭을 채웁니다 */
+.stage{flex-direction:column;align-items:center}
+.stage>.ux{width:100%;max-width:580px}
+.stage>h3{width:100%;max-width:580px}
+.stage .u039{height:auto}
+.stage .u044{height:auto}
+.stage .u057{height:330px;background:transparent;box-shadow:none;border-radius:0;padding:4px 2px 0}
+.stage .u057:focus-visible{box-shadow:0 0 0 2px var(--ux-accent);border-radius:16px}
+.stage .u244{height:auto;max-width:480px;background:transparent;box-shadow:none;border-radius:0;overflow:visible}
+.stage .u244-sc{position:static;overflow:visible;padding:2px 2px 4px}
+.stage .u244 h3{font-size:22px}
+.stage .u244-sc>p{font-size:12.5px}
+.stage .u244-fd label{font-size:12.5px}
+.stage .u244-in{height:48px;font-size:14.5px;background:var(--tile);box-shadow:inset 0 0 0 1.5px var(--hairline)}
+.stage .u244-ag{font-size:13px}
+.stage .u244-go{height:52px;font-size:15px;border-radius:999px;background:var(--primary);color:var(--primary-ink)}
+.stage .u244-ms>div{font-size:12px}
+@media (max-width:520px){.glass.stage{padding:22px 16px}}
 [hidden]{display:none!important}
 @media (min-width:1025px){.wrap{max-width:none;width:85%;padding-left:0;padding-right:0}}
 .stage{min-height:200px}
@@ -703,7 +722,7 @@ body.is-admin footer{padding-bottom:110px}
       </div>
       <p class="sec-lead note" id="demo-note">시트와 아직 연결되지 않은 미리보기라 신청이 실제로 접수되지는 않습니다.</p>
     </div>
-    <div class="stage">
+    <div class="glass stage">
 <!-- Lucian UX/UI Prompt #244 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#244 -->
 <style>
 .u244{position:relative;width:300px;height:480px;border-radius:32px;overflow:hidden;background:var(--ux-surface);box-shadow:0 0 0 1px var(--ux-line),0 30px 60px -36px var(--ux-shadow-strong);color:var(--ux-ink)}
@@ -805,13 +824,13 @@ body.is-admin footer{padding-bottom:110px}
     ul.innerHTML = '';
     b.forEach(function (i) {
       var li = document.createElement('li'); li.dataset.i = i; var a = document.createElement('a'); a.href = '#'; a.textContent = i < 4 ? F[i][0].replace(/ \(.*\)/, '') : '개인정보 동의';
-      a.addEventListener('click', function (ev) { ev.preventDefault(); var t = i < 4 ? fields[i] : null; goTo(t ? t.el : ag, function () { (t ? t.inp : ag).focus({ preventScroll: true }); }); });
+      a.addEventListener('click', function (ev) { ev.preventDefault(); var t = i < 4 ? fields[i] : null; goTo(t ? t.el : ag, function () { (t ? t.inp : ag).focus(); }); });
       li.appendChild(a); ul.appendChild(li);
     });
     b.forEach(function (i) { shake(i < 4 ? fields[i].el : ag); });
     var first = b[0];
     // 요약이 펼쳐진 뒤 첫 번째 틀린 칸으로 데려갑니다
-    setTimeout(function () { goTo(first < 4 ? fields[first].el : ag, function () { (first < 4 ? fields[first].inp : ag).focus({ preventScroll: true }); }); }, rm ? 0 : 200);
+    setTimeout(function () { goTo(first < 4 ? fields[first].el : ag, function () { (first < 4 ? fields[first].inp : ag).focus(); }); }, rm ? 0 : 200);
   });
   ag.addEventListener('click', function () { ag.setAttribute('aria-checked', ag.getAttribute('aria-checked') !== 'true'); if (tried) state(); });
 });
