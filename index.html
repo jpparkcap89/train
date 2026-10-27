@@ -190,7 +190,7 @@ body.is-loading .ld{opacity:1;visibility:visible}
 .ld-sub{margin:6px 0 0;font-size:14px;color:#667085}
 .ld-pct{margin:16px 0 0;font-size:38px;font-weight:850;letter-spacing:-.03em;color:#24324a;font-variant-numeric:tabular-nums;line-height:1}
 .ld-bar{height:8px;margin:16px 6px 0;border-radius:99px;background:rgba(36,50,74,.08);overflow:hidden}
-.ld-bar i{display:block;height:100%;width:calc(var(--p,0) * 1%);border-radius:inherit;background:linear-gradient(90deg,#3b63f6,#38bdf8 60%,#f59e0b);transition:width .45s var(--ux-ease);position:relative}
+.ld-bar i{display:block;height:100%;width:calc(var(--p,0) * 1%);border-radius:inherit;background:linear-gradient(90deg,#3b63f6,#38bdf8 60%,#f59e0b);transition:width .16s linear;position:relative}
 .ld-bar i::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);animation:ld-shine 1.4s linear infinite}
 @keyframes ld-shine{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
 .ld-foot{position:relative;padding:16px 20px 18px;background:linear-gradient(120deg,rgba(127,216,201,.55),rgba(142,156,255,.45));font-size:13.5px;font-weight:700;color:#24324a;min-height:52px}
