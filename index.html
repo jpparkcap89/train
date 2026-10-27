@@ -1,0 +1,1146 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="생성형 AI를 우리 반 교육과정에 연결하는 4주간의 실습 연수 안내와 신청">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<title>AI 수업 설계 연수</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap">
+<style>
+/* Layout: cap89 style — pastel-blob page, frosted-glass cards, two-column sections that stack under 1024px */
+:root{
+  --ink:#24324a; --muted:#667085; --primary:#3b63f6; --primary-hover:#254ed8; --primary-ink:#ffffff;
+  --sky:#38bdf8; --amber:#f59e0b;
+  --bg-base:linear-gradient(135deg,#f8fbff 0%,#fffdf7 45%,#f8fffc 100%);
+  --blob-a:rgba(255,207,112,.55); --blob-b:rgba(127,216,201,.55); --blob-c:rgba(255,159,181,.38);
+  --panel:rgba(255,255,255,.72); --panel-line:rgba(255,255,255,.95); --tile:rgba(255,255,255,.78);
+  --hairline:rgba(36,50,74,.07); --pill-line:rgba(59,99,246,.14);
+  --shadow:0 20px 60px rgba(67,89,146,.16); --shadow-sm:0 8px 24px rgba(50,68,110,.08);
+  --head-grad:linear-gradient(100deg,#3b63f6 0%,#38bdf8 52%,#f59e0b 100%);
+  --font:Pretendard,"Pretendard Variable","Noto Sans KR","Apple SD Gothic Neo",system-ui,sans-serif;
+
+  --ux-page:#f8fbff; --ux-surface:#ffffff; --ux-surface-2:#f4f7ff; --ux-surface-3:#e8eefc;
+  --ux-ink:#24324a; --ux-ink-2:#667085; --ux-ink-3:#98a2b3;
+  --ux-line:rgba(36,50,74,.07); --ux-line-2:rgba(36,50,74,.15);
+  --ux-accent:#3b63f6; --ux-accent-2:#38bdf8; --ux-accent-soft:rgba(59,99,246,.12); --ux-accent-ink:#ffffff;
+  --ux-mint:#2bb39a; --ux-warn:#f59e0b; --ux-danger:#e5486b;
+  --ux-glass:rgba(255,255,255,.72); --ux-glass-line:rgba(255,255,255,.95);
+  --ux-shadow:rgba(67,89,146,.16); --ux-shadow-strong:rgba(67,89,146,.32);
+  --ux-grad:linear-gradient(100deg,#3b63f6 0%,#38bdf8 52%,#f59e0b 100%);
+  --ux-ease:cubic-bezier(.2,.8,.2,1); --ux-spring:cubic-bezier(.34,1.45,.64,1);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  color-scheme:dark;
+  --ink:#eef2ff; --muted:#a3adc2; --primary:#7b9bff; --primary-hover:#9db4ff; --primary-ink:#0b1222;
+  --bg-base:linear-gradient(135deg,#0d1424 0%,#121a2c 50%,#0d1822 100%);
+  --blob-a:rgba(255,207,112,.16); --blob-b:rgba(127,216,201,.16); --blob-c:rgba(255,159,181,.12);
+  --panel:rgba(255,255,255,.07); --panel-line:rgba(255,255,255,.12); --tile:rgba(255,255,255,.06);
+  --hairline:rgba(255,255,255,.08); --pill-line:rgba(123,155,255,.3);
+  --shadow:0 20px 60px rgba(0,0,0,.4); --shadow-sm:0 8px 24px rgba(0,0,0,.3);
+  --head-grad:linear-gradient(100deg,#7b9bff 0%,#5fd0ff 52%,#ffc35c 100%);
+  --ux-page:#0d1424; --ux-surface:#151e33; --ux-surface-2:#1c2740; --ux-surface-3:#26324e;
+  --ux-ink:#eef2ff; --ux-ink-2:#a3adc2; --ux-ink-3:#76819a;
+  --ux-line:rgba(255,255,255,.08); --ux-line-2:rgba(255,255,255,.16);
+  --ux-accent:#7b9bff; --ux-accent-2:#5fd0ff; --ux-accent-soft:rgba(123,155,255,.16); --ux-accent-ink:#0b1222;
+  --ux-mint:#6fe0c0; --ux-warn:#ffc35c; --ux-danger:#ff7d95;
+  --ux-glass:rgba(255,255,255,.07); --ux-glass-line:rgba(255,255,255,.14);
+  --ux-shadow:rgba(0,0,0,.45); --ux-shadow-strong:rgba(0,0,0,.7);
+  --ux-grad:linear-gradient(100deg,#7b9bff 0%,#5fd0ff 52%,#ffc35c 100%);
+}}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ink:#eef2ff; --muted:#a3adc2; --primary:#7b9bff; --primary-hover:#9db4ff; --primary-ink:#0b1222;
+  --bg-base:linear-gradient(135deg,#0d1424 0%,#121a2c 50%,#0d1822 100%);
+  --blob-a:rgba(255,207,112,.16); --blob-b:rgba(127,216,201,.16); --blob-c:rgba(255,159,181,.12);
+  --panel:rgba(255,255,255,.07); --panel-line:rgba(255,255,255,.12); --tile:rgba(255,255,255,.06);
+  --hairline:rgba(255,255,255,.08); --pill-line:rgba(123,155,255,.3);
+  --shadow:0 20px 60px rgba(0,0,0,.4); --shadow-sm:0 8px 24px rgba(0,0,0,.3);
+  --head-grad:linear-gradient(100deg,#7b9bff 0%,#5fd0ff 52%,#ffc35c 100%);
+  --ux-page:#0d1424; --ux-surface:#151e33; --ux-surface-2:#1c2740; --ux-surface-3:#26324e;
+  --ux-ink:#eef2ff; --ux-ink-2:#a3adc2; --ux-ink-3:#76819a;
+  --ux-line:rgba(255,255,255,.08); --ux-line-2:rgba(255,255,255,.16);
+  --ux-accent:#7b9bff; --ux-accent-2:#5fd0ff; --ux-accent-soft:rgba(123,155,255,.16); --ux-accent-ink:#0b1222;
+  --ux-mint:#6fe0c0; --ux-warn:#ffc35c; --ux-danger:#ff7d95;
+  --ux-glass:rgba(255,255,255,.07); --ux-glass-line:rgba(255,255,255,.14);
+  --ux-shadow:rgba(0,0,0,.45); --ux-shadow-strong:rgba(0,0,0,.7);
+  --ux-grad:linear-gradient(100deg,#7b9bff 0%,#5fd0ff 52%,#ffc35c 100%);
+}
+
+/* Lucian .ux base rules (MIT, (c) 2026 Seokwoooo) with the site font */
+.ux{font-family:var(--font);color:var(--ux-ink);-webkit-font-smoothing:antialiased;letter-spacing:-.01em;-webkit-tap-highlight-color:transparent;word-break:keep-all;overflow-wrap:break-word;max-width:100%}
+:where(.ux) :is(button,input,textarea,select){font:inherit;color:inherit}
+:where(.ux) button{cursor:pointer}
+.ux :focus-visible{outline:2px solid var(--ux-accent);outline-offset:3px}
+.ux [hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){.ux,.ux *,.ux *::before,.ux *::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
+
+/* page */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--font);color:var(--ink);font-size:16px;line-height:1.7;background:var(--bg-base);background-color:var(--ux-page);word-break:keep-all;overflow-x:hidden}
+.blobs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.blob{position:absolute;border-radius:50%;filter:blur(30px);animation:float 8s ease-in-out infinite}
+.blob.a{width:340px;height:340px;left:-80px;top:40px;background:var(--blob-a)}
+.blob.b{width:380px;height:380px;right:-100px;top:-40px;background:var(--blob-b);animation-duration:9s}
+.blob.c{width:300px;height:300px;right:12%;bottom:-80px;background:var(--blob-c);animation-duration:7s}
+@keyframes float{50%{transform:translate(10px,-18px)}}
+@keyframes pageIn{from{opacity:.001;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.blob{animation:none}.wrap>*{animation:none!important}html{scroll-behavior:auto}}
+
+.wrap{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.wrap>*{animation:pageIn .5s var(--ux-ease) both}
+
+header.top{display:flex;align-items:center;gap:16px;padding-block:18px 8px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none;font-weight:800;letter-spacing:-.02em}
+.mark{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,#3b63f6,#8e9cff);color:#fff;font-size:17px;font-weight:800;letter-spacing:-.03em;box-shadow:0 10px 25px rgba(59,99,246,.28)}
+nav.links{margin-left:auto;display:flex;gap:4px;flex-wrap:wrap}
+nav.links a{color:var(--ink);text-decoration:none;font-size:15px;font-weight:650;padding:6px 10px;border-radius:10px;transition:color .2s,background-color .2s}
+nav.links a:hover{color:var(--primary);background:var(--tile)}
+nav.links a:focus-visible,.btn:focus-visible,.brand:focus-visible{outline:2px solid var(--primary);outline-offset:3px}
+
+.hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.9fr);gap:40px;align-items:center;padding-block:52px 40px}
+.eyebrow{display:inline-flex;align-items:center;gap:6px;padding:10px 15px;border-radius:999px;background:var(--tile);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--pill-line);color:var(--primary);font-size:14px;font-weight:750;box-shadow:var(--shadow-sm)}
+h1{margin:20px 0 0;font-size:clamp(28px,4.6vw,46px);line-height:1.25;font-weight:850;letter-spacing:-.03em;text-wrap:balance}
+.grad{background:var(--head-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{margin:18px 0 0;max-width:34em;color:var(--muted);font-size:17px}
+.lead strong{color:var(--ink)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+.btn{display:inline-flex;align-items:center;gap:6px;height:50px;padding:0 24px;border-radius:999px;font-size:15px;font-weight:650;text-decoration:none;transition:background-color .2s,transform .2s}
+.btn.primary{background:var(--primary);color:var(--primary-ink);box-shadow:0 12px 28px -12px rgba(59,99,246,.7)}
+.btn.primary:hover{background:var(--primary-hover);transform:translateY(-2px)}
+.btn.ghost{background:var(--panel);color:var(--primary);border:1px solid var(--panel-line);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.btn.ghost:hover{transform:translateY(-2px)}
+
+.glass{background:var(--panel);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--panel-line);border-radius:34px;box-shadow:var(--shadow)}
+.facts{padding:28px}
+.facts h2{margin:0;font-size:19px;font-weight:800;letter-spacing:-.02em}
+.facts dl{margin:16px 0 0;display:grid;gap:10px}
+.facts .row{display:grid;grid-template-columns:72px minmax(0,1fr);gap:12px;align-items:baseline;padding:12px 14px;border-radius:16px;background:var(--tile);border:1px solid var(--hairline)}
+.facts dt{font-size:13px;font-weight:750;color:var(--muted)}
+.facts dd{margin:0;font-size:15px;font-weight:650;font-variant-numeric:tabular-nums}
+.facts .seat{margin-top:16px;font-size:13px;color:var(--muted)}
+.seatbar{height:8px;border-radius:99px;background:var(--hairline);overflow:hidden;margin-top:6px}
+.seatbar i{display:block;height:100%;width:73%;border-radius:inherit;background:var(--head-grad)}
+
+.features{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;padding-block:8px 24px}
+.feat{padding:22px;border-radius:26px;background:var(--tile);border:1px solid var(--hairline);transition:transform .2s}
+.feat:hover{transform:translateY(-3px)}
+.feat .emo{font-size:30px;line-height:1}
+.feat h3{margin:12px 0 4px;font-size:19px;font-weight:700;letter-spacing:-.02em}
+.feat p{margin:0;font-size:15px;color:var(--muted)}
+.feat strong{color:var(--ink)}
+
+section.block{padding-block:52px 28px;scroll-margin-top:12px}
+.label{font-size:13px;font-weight:800;letter-spacing:.14em;color:var(--primary)}
+h2.sec{margin:6px 0 0;font-size:clamp(24px,3vw,30px);font-weight:850;letter-spacing:-.03em;line-height:1.3;text-wrap:balance}
+.sec-lead{margin:10px 0 0;color:var(--muted);max-width:32em}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center}
+.stage{display:flex;justify-content:center;padding:28px 18px}
+.steps{list-style:none;margin:22px 0 0;padding:0;display:grid;gap:10px}
+.steps li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;padding:12px 14px;border-radius:16px;background:var(--tile);border:1px solid var(--hairline)}
+.steps b{display:block;font-size:15px}
+.steps span.w{display:inline-grid;place-items:center;min-width:44px;height:26px;padding:0 8px;border-radius:999px;background:var(--ux-accent-soft);color:var(--primary);font-size:12px;font-weight:800;font-variant-numeric:tabular-nums}
+.steps small{color:var(--muted);font-size:13.5px}
+.duo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;margin-top:24px}
+.duo .stage{flex-direction:column;align-items:center;gap:14px}
+.duo h3{margin:0;align-self:stretch;font-size:17px;font-weight:800;letter-spacing:-.02em;padding-inline:6px}
+
+.contact{margin-top:18px;display:grid;gap:8px;font-size:15px}
+.contact div{display:flex;gap:10px}
+.contact span:first-child{width:56px;flex:none;color:var(--muted);font-weight:650}
+footer{padding-block:40px 48px;text-align:center;font-size:13px;color:var(--muted)}
+
+@media (max-width:1024px){
+  .hero,.split{grid-template-columns:minmax(0,1fr);gap:28px}
+  .duo{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:720px){.features{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:520px){
+  .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  nav.links{margin-left:0;width:100%}
+  nav.links a{padding:6px 8px;font-size:14px}
+  .hero{padding-block:28px 28px}
+  .facts{padding:20px}
+  .stage{padding:16px 0}
+  .glass{border-radius:26px}
+}
+</style>
+
+
+</head>
+<body>
+<style>
+@media (min-width:1025px){.wrap{max-width:none;width:85%;padding-left:0;padding-right:0}}
+.stage{min-height:200px}
+.foot-row{display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap}
+.lock-btn{border:1px solid var(--hairline);background:var(--tile);color:var(--muted);font:inherit;font-size:12.5px;font-weight:650;padding:6px 12px;border-radius:999px;cursor:pointer}
+.lock-btn:hover{color:var(--primary)}
+.lock-btn:focus-visible,.adm button:focus-visible,.adm input:focus-visible,.adm select:focus-visible,.adm a:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.note{font-size:13px}
+
+/* admin */
+dialog.adm{border:0;padding:0;background:transparent;color:var(--ink);max-width:min(1100px,calc(100vw - 24px));width:100%;max-height:calc(100vh - 24px)}
+dialog.adm::backdrop{background:rgba(13,20,36,.45);backdrop-filter:blur(4px)}
+.adm-card{background:var(--ux-surface);border:1px solid var(--panel-line);border-radius:26px;box-shadow:var(--shadow);padding:24px;max-height:calc(100vh - 24px);overflow:auto}
+.adm-card.narrow{max-width:380px;margin:0 auto}
+.adm h2{margin:0;font-size:20px;font-weight:850;letter-spacing:-.02em}
+.adm p.sub{margin:4px 0 0;font-size:13.5px;color:var(--muted)}
+.adm-top{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.adm-top .sp{flex:1;min-width:0}
+.adm .x{border:0;background:var(--ux-surface-2);color:var(--ink);width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer}
+.adm label{display:block;margin-top:16px;font-size:12.5px;font-weight:750;color:var(--muted)}
+.adm input[type=password]{width:100%;height:46px;margin-top:6px;padding:0 14px;border:0;border-radius:12px;background:var(--ux-surface-2);box-shadow:inset 0 0 0 1.5px var(--ux-line);color:var(--ink);font:inherit;font-size:15px}
+.adm .go{width:100%;height:46px;margin-top:14px;border:0;border-radius:12px;background:var(--primary);color:var(--primary-ink);font:inherit;font-weight:750;cursor:pointer}
+.adm .go:disabled{opacity:.6;cursor:default}
+.adm .err{min-height:20px;margin:8px 0 0;font-size:13px;font-weight:650;color:var(--ux-danger)}
+.adm .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.adm .chip{padding:8px 12px;border-radius:12px;background:var(--ux-surface-2);font-size:13px;font-weight:650}
+.adm .chip b{font-size:16px;margin-left:4px;font-variant-numeric:tabular-nums}
+.adm .tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:16px}
+.adm .tools input{flex:1;min-width:160px;height:38px;padding:0 12px;border:0;border-radius:10px;background:var(--ux-surface-2);box-shadow:inset 0 0 0 1.5px var(--ux-line);color:var(--ink);font:inherit;font-size:14px}
+.adm .ghost{height:38px;padding:0 14px;border:1px solid var(--ux-line-2);border-radius:10px;background:transparent;color:var(--primary);font:inherit;font-size:13.5px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+.adm .tbl{margin-top:14px;overflow-x:auto;border-radius:14px;box-shadow:0 0 0 1px var(--ux-line)}
+.adm table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:760px}
+.adm th{position:sticky;top:0;background:var(--ux-surface-2);text-align:left;font-size:12px;font-weight:800;color:var(--muted);padding:10px 12px;white-space:nowrap}
+.adm td{padding:9px 12px;border-top:1px solid var(--ux-line);vertical-align:middle}
+.adm td.n{font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap}
+.adm select,.adm td input{height:32px;border:0;border-radius:8px;background:var(--ux-surface-2);box-shadow:inset 0 0 0 1.5px var(--ux-line);color:var(--ink);font:inherit;font-size:13px;padding:0 8px}
+.adm td input{width:100%;min-width:140px}
+.adm .st-확정{color:#059669}.adm .st-취소{color:var(--ux-danger)}.adm .st-대기{color:var(--amber)}
+.adm .empty{padding:28px;text-align:center;color:var(--muted)}
+.adm .hint{margin-top:14px;font-size:12.5px;color:var(--muted)}
+
+/* edit mode */
+[data-edit]{position:relative}
+.pen{display:none;position:absolute;top:8px;right:8px;z-index:5;width:38px;height:38px;border-radius:50%;border:1px solid var(--pill-line);background:var(--ux-surface);color:var(--primary);font-size:17px;line-height:1;cursor:pointer;box-shadow:var(--shadow-sm);transition:transform .2s}
+.pen:hover{transform:scale(1.08)}
+.pen:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+body.is-admin .pen{display:grid;place-items:center}
+body.is-admin [data-edit]{outline:1.5px dashed var(--pill-line);outline-offset:6px;border-radius:18px}
+footer[data-edit] .pen{top:30px}
+.abar{display:none;position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:20;gap:6px;align-items:center;padding:6px;border-radius:999px;background:var(--ink);box-shadow:0 16px 40px -12px rgba(13,20,36,.5);max-width:calc(100vw - 24px);overflow-x:auto}
+body.is-admin .abar{display:flex}
+.abar span{color:var(--ux-page);font-size:13px;font-weight:750;padding:0 10px;white-space:nowrap}
+.abar button{border:0;border-radius:999px;background:rgba(255,255,255,.12);color:var(--ux-page);font:inherit;font-size:13px;font-weight:700;padding:8px 14px;cursor:pointer;white-space:nowrap}
+.abar button:hover{background:rgba(255,255,255,.22)}
+.abar button:focus-visible{outline:2px solid var(--sky);outline-offset:2px}
+body.is-admin footer{padding-bottom:110px}
+.ed-f{margin-top:14px}
+.ed-f>span{display:block;font-size:12.5px;font-weight:750;color:var(--muted)}
+.ed-f small{display:block;margin-top:2px;font-size:12px;color:var(--ux-ink-3)}
+.ed-f input,.ed-f textarea,.ed-f select,.ed-row input,.ed-row textarea{width:100%;margin-top:6px;padding:10px 12px;border:0;border-radius:10px;background:var(--ux-surface-2);box-shadow:inset 0 0 0 1.5px var(--ux-line);color:var(--ink);font:inherit;font-size:14.5px;line-height:1.5}
+.ed-f textarea,.ed-row textarea{min-height:84px;resize:vertical}
+.ed-f input:focus,.ed-f textarea:focus,.ed-row input:focus,.ed-row textarea:focus{outline:none;box-shadow:inset 0 0 0 2px var(--primary)}
+.ed-list{display:grid;gap:10px;margin-top:14px}
+.ed-row{display:grid;gap:8px;padding:12px;border-radius:14px;background:var(--ux-surface-2);box-shadow:inset 0 0 0 1px var(--ux-line)}
+.ed-row input,.ed-row textarea{background:var(--ux-surface);margin-top:4px}
+.ed-row label{font-size:12px;font-weight:750;color:var(--muted)}
+.ed-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
+.ed-ops{display:flex;gap:6px;justify-content:flex-end}
+.ed-ops button,.ed-add{border:1px solid var(--ux-line-2);background:var(--ux-surface);color:var(--ink);border-radius:8px;font:inherit;font-size:12.5px;font-weight:700;padding:5px 10px;cursor:pointer}
+.ed-ops button.del{color:var(--ux-danger)}
+.ed-add{margin-top:10px;color:var(--primary);padding:8px 12px}
+.ed-foot{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;position:sticky;bottom:-24px;background:var(--ux-surface);padding:12px 0 4px}
+.ed-foot .go{width:auto;margin:0;padding:0 22px}
+</style>
+
+<div class="blobs" aria-hidden="true"><div class="blob a"></div><div class="blob b"></div><div class="blob c"></div></div>
+<script>window.LXQ = [];</script>
+
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="#top" id="top"><span class="mark" data-k="settings.brandInitials">JP</span><span data-k="settings.brandName">JP Park 연수실</span></a>
+    <nav class="links" aria-label="페이지 메뉴">
+      <a href="#course">과정</a><a href="#voices">후기·질문</a><a href="#apply">신청</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div data-edit="hero">
+      <span class="eyebrow" data-k="content.eyebrow">✨ 2027 겨울방학 교원 자율연수</span>
+      <h1><span data-k="content.title1">AI로 수업을 다시 설계하는</span><br><span class="grad" data-k="content.title2">4주간의 실습 연수</span></h1>
+      <p class="lead" data-md="content.lead"></p>
+      <div class="actions">
+        <a class="btn primary" href="#apply" id="cta">연수 신청하기 →</a>
+        <a class="btn ghost" href="#course">과정 살펴보기</a>
+      </div>
+    </div>
+    <aside class="glass facts" aria-label="연수 개요" data-edit="facts">
+      <h2>📌 연수 한눈에</h2>
+      <dl>
+        <div class="row"><dt>기간</dt><dd data-k="content.factPeriod"></dd></div>
+        <div class="row"><dt>시간</dt><dd data-k="content.factTime"></dd></div>
+        <div class="row"><dt>이수</dt><dd data-k="content.factCredit"></dd></div>
+        <div class="row"><dt>장소</dt><dd data-k="content.factPlace"></dd></div>
+      </dl>
+      <div id="seats">
+        <p class="seat" id="seat-text"></p>
+        <div class="seatbar" role="img" id="seat-bar"><i></i></div>
+      </div>
+    </aside>
+  </section>
+
+  <div class="features-wrap" data-edit="features"><div class="features" id="features"></div></div>
+
+  <section class="block split" id="course">
+    <div data-edit="course">
+      <div class="label">CURRICULUM</div>
+      <h2 class="sec">🧭 주차별 연수 과정</h2>
+      <p class="sec-lead" data-k="content.courseLead"></p>
+      <ol class="steps" id="weeks"></ol>
+    </div>
+    <div class="glass stage" data-edit="topics">
+<!-- Lucian UX/UI Prompt #039 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#039 -->
+<style>
+.u039{position:relative;width:340px;height:380px}
+.u039-tabs{position:relative;display:flex;padding:5px;border-radius:999px;background:var(--ux-surface);box-shadow:0 0 0 1px var(--ux-line)}
+.u039-pill{position:absolute;left:0;top:5px;bottom:5px;width:var(--w,80px);border-radius:999px;background:var(--ux-ink);transform:translateX(var(--x,5px));box-shadow:0 8px 16px -10px var(--ux-shadow-strong);transition:transform .5s var(--ux-spring),width .5s var(--ux-spring)}
+.u039-tab{position:relative;flex:1;height:42px;border:0;padding:0;border-radius:999px;background:none;font-size:14px;font-weight:680;color:var(--ux-ink-2);white-space:nowrap;transition:color .35s var(--ux-ease)}
+.u039-tab[aria-selected="true"]{color:var(--ux-page)}
+.u039-tab:focus-visible{outline:2px solid var(--ux-accent);outline-offset:2px}
+.u039-panel{position:relative;height:312px;margin-top:14px;overflow:hidden;border-radius:22px}
+.u039-list{position:absolute;inset:0;margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.u039-row{display:flex;align-items:center;gap:12px;padding:10px;border-radius:18px;background:var(--ux-surface);box-shadow:0 0 0 1px var(--ux-line);transition:transform .55s var(--ux-spring),opacity .35s var(--ux-ease)}
+.u039-art{position:relative;width:52px;height:52px;flex:none;border-radius:14px;background:var(--g);overflow:hidden}
+.u039-art::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.45),transparent 55%)}
+.u039-row b{display:block;font-size:15px;font-weight:700;letter-spacing:-.02em}
+.u039-row small{display:block;margin-top:3px;font-size:12.5px;color:var(--ux-ink-3)}
+.u039-row em{margin-left:auto;font-style:normal;font-size:12.5px;font-weight:650;color:var(--ux-ink-3);font-variant-numeric:tabular-nums}
+.u039-badge{margin-left:6px;padding:2px 6px;border-radius:6px;font-size:10.5px;font-weight:800;background:var(--ux-accent-soft);color:var(--ux-accent);vertical-align:2px}
+</style>
+<div class="ux u039">
+  <div class="u039-tabs" role="tablist" aria-label="연수 주제">
+    <span class="u039-pill" aria-hidden="true"></span>
+  </div>
+  <div class="u039-panel" role="tabpanel"></div>
+</div>
+<script>
+(function () {
+  var root = document.currentScript.previousElementSibling;
+  window.LXQ.push(function (SITE) {
+  var DATA = SITEKIT.tabs039(root, SITE);
+  var tabs = Array.prototype.slice.call(root.querySelectorAll('.u039-tab'));
+  var pill = root.querySelector('.u039-pill');
+  var panel = root.querySelector('.u039-panel');
+  var rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cur = 0, list = null;
+  function movePill(animate) {
+    var t = tabs[cur];
+    if (!animate) pill.style.transition = 'none';
+    pill.style.setProperty('--x', t.offsetLeft + 'px');
+    pill.style.setProperty('--w', t.offsetWidth + 'px');
+    if (!animate) { void pill.offsetWidth; pill.style.transition = ''; }
+  }
+  function make(i) {
+    var ul = document.createElement('ul');
+    ul.className = 'u039-list';
+    ul.innerHTML = DATA[i].map(function (r, k) {
+      return '<li class="u039-row" style="transition-delay:' + (k * 45) + 'ms"><span class="u039-art" style="--g:' + r[3] + '" aria-hidden="true"></span><span><b>' + r[0] + '' + '</b><small>' + r[1] + '</small></span><em>' + r[2] + '</em></li>';
+    }).join('');
+    return ul;
+  }
+  // 새 목록은 이동한 방향에서 들어오고, 이전 목록은 반대쪽으로 빠집니다. 줄마다 조금씩 늦게 움직입니다
+  function select(i, focus) {
+    if (i === cur && list) return;
+    var dir = i > cur ? 1 : -1;
+    cur = i;
+    tabs.forEach(function (t, k) { t.setAttribute('aria-selected', String(k === i)); t.tabIndex = k === i ? 0 : -1; });
+    if (focus) tabs[i].focus();
+    movePill(true);
+    var next = make(i), old = list;
+    list = next;
+    if (!old || rm) { if (old) old.remove(); panel.appendChild(next); return; }
+    Array.prototype.forEach.call(next.children, function (r) { r.style.transform = 'translateX(' + (dir * 70) + '%)'; r.style.opacity = '0'; });
+    panel.appendChild(next);
+    void next.offsetWidth;
+    Array.prototype.forEach.call(next.children, function (r) { r.style.transform = ''; r.style.opacity = ''; });
+    Array.prototype.forEach.call(old.children, function (r) { r.style.transform = 'translateX(' + (-dir * 60) + '%)'; r.style.opacity = '0'; });
+    setTimeout(function () { old.remove(); }, 700);
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { select(i); });
+    t.addEventListener('keydown', function (e) {
+      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (d) { e.preventDefault(); select((i + d + tabs.length) % tabs.length, true); }
+    });
+  });
+  var uid = 'u039-' + Math.random().toString(36).slice(2, 7);
+  panel.id = uid;
+  tabs.forEach(function (t) { t.setAttribute('aria-controls', uid); });
+  list = make(0);
+  panel.appendChild(list);
+  tabs.forEach(function (t, k) { t.tabIndex = k === 0 ? 0 : -1; });
+  movePill(false);
+});
+})();
+</script>
+
+</div>
+  </section>
+
+  <section class="block" id="voices">
+    <div class="voices-head" data-edit="voices"><div class="label">VOICES &amp; FAQ</div>
+    <h2 class="sec">💬 먼저 들은 선생님들의 이야기</h2>
+    <p class="sec-lead" data-k="content.voicesLead"></p></div>
+    <div class="duo">
+      <div class="glass stage" data-edit="reviews"><h3>참여 후기</h3>
+<!-- Lucian UX/UI Prompt #057 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#057 -->
+<style>
+.u057{position:relative;width:350px;height:370px;display:flex;flex-direction:column;padding:26px 24px 22px;border-radius:30px;background:var(--ux-surface);box-shadow:0 0 0 1px var(--ux-line),0 30px 60px -36px var(--ux-shadow-strong);overflow:hidden;outline:none}
+.u057:focus-visible{box-shadow:0 0 0 2px var(--ux-accent),0 30px 60px -36px var(--ux-shadow-strong)}
+.u057-mark{position:absolute;right:20px;top:-6px;font-size:150px;line-height:1;font-weight:900;font-family:Georgia,serif;background:linear-gradient(160deg,var(--c1,#FFB547),var(--c2,#FF6B8B));-webkit-background-clip:text;background-clip:text;color:transparent;opacity:.22;transition:opacity .4s;pointer-events:none}
+.u057-stars{display:flex;gap:3px;color:#FFB547}
+.u057-stars svg{width:16px;height:16px;fill:currentColor}
+.u057-view{position:relative;flex:1;margin-top:14px;touch-action:pan-y;cursor:grab}
+.u057-view.drag{cursor:grabbing}
+.u057-q{position:absolute;inset:0;margin:0;font-size:24px;line-height:1.42;font-weight:760;letter-spacing:-.045em;transition:transform .5s var(--ux-ease),opacity .3s}
+.u057-q span{display:inline-block;opacity:0;transform:translateY(10px);filter:blur(4px);transition:opacity .45s var(--ux-ease),transform .6s var(--ux-spring),filter .45s;transition-delay:calc(var(--i) * 32ms)}
+.u057-q.on span{opacity:1;transform:none;filter:none}
+.u057-q.on mark{background:linear-gradient(transparent 62%,color-mix(in srgb,var(--c1,#FFB547) 40%,transparent) 62%);color:inherit}
+.u057-q mark{background:none;color:inherit;transition:background .4s .5s}
+.u057-who{display:flex;align-items:baseline;gap:8px;margin-bottom:14px;height:22px}
+.u057-who b{font-size:15px;font-weight:800;letter-spacing:-.02em}
+.u057-who small{font-size:12.5px;font-weight:600;color:var(--ux-ink-3)}
+.u057-faces{display:flex;align-items:center;gap:10px}
+.u057-f{position:relative;width:40px;height:40px;flex:none;border:0;padding:0;border-radius:50%;background:none;transition:width .5s var(--ux-spring),height .5s var(--ux-spring)}
+.u057-f i{position:absolute;inset:4px;border-radius:50%;background:var(--g);filter:grayscale(.7);opacity:.6;transition:filter .4s,opacity .4s,inset .4s}
+.u057-f:hover i{opacity:.9}
+.u057-f[aria-current="true"]{width:54px;height:54px}
+.u057-f[aria-current="true"] i{filter:none;opacity:1;inset:5px}
+.u057-f svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg);opacity:0;transition:opacity .3s}
+.u057-f[aria-current="true"] svg{opacity:1}
+.u057-f circle{fill:none;stroke-width:2.5}
+.u057-f .tr{stroke:var(--ux-line)}
+.u057-f .pr{stroke:var(--ux-accent);stroke-linecap:round;stroke-dasharray:100;stroke-dashoffset:calc(100 - var(--p,0) * 100)}
+.u057-f:focus-visible{outline:2px solid var(--ux-accent);outline-offset:2px}
+.u057-n{margin-left:auto;font-size:12.5px;font-weight:700;color:var(--ux-ink-3);font-variant-numeric:tabular-nums}
+</style>
+<div class="ux u057" tabindex="0" role="region" aria-roledescription="캐러셀" aria-label="참여 후기">
+  <span class="u057-mark" aria-hidden="true">“</span>
+  <div class="u057-stars" role="img" aria-label="별점 5점"><svg viewBox="0 0 16 16"><path d="M8 1.5l2 4.2 4.5.6-3.3 3.1.8 4.5L8 11.7l-4 2.2.8-4.5L1.5 6.3l4.5-.6z"/></svg><svg viewBox="0 0 16 16"><path d="M8 1.5l2 4.2 4.5.6-3.3 3.1.8 4.5L8 11.7l-4 2.2.8-4.5L1.5 6.3l4.5-.6z"/></svg><svg viewBox="0 0 16 16"><path d="M8 1.5l2 4.2 4.5.6-3.3 3.1.8 4.5L8 11.7l-4 2.2.8-4.5L1.5 6.3l4.5-.6z"/></svg><svg viewBox="0 0 16 16"><path d="M8 1.5l2 4.2 4.5.6-3.3 3.1.8 4.5L8 11.7l-4 2.2.8-4.5L1.5 6.3l4.5-.6z"/></svg><svg viewBox="0 0 16 16"><path d="M8 1.5l2 4.2 4.5.6-3.3 3.1.8 4.5L8 11.7l-4 2.2.8-4.5L1.5 6.3l4.5-.6z"/></svg></div>
+  <div class="u057-view" aria-live="polite"></div>
+  <div class="u057-who"><b></b><small></small></div>
+  <div class="u057-faces" role="group" aria-label="후기 고르기"><span class="u057-n" aria-hidden="true"></span></div>
+</div>
+<script>
+(function () {
+  var root = document.currentScript.previousElementSibling;
+  window.LXQ.push(function (SITE) {
+  var view = root.querySelector('.u057-view'), who = root.querySelector('.u057-who'), faces = root.querySelector('.u057-faces'), num = root.querySelector('.u057-n');
+  var rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var D = SITEKIT.reviews(SITE);
+  var DUR = 5200, cur = -1, t0 = 0, paused = false, raf = 0, acc = 0;
+  var btns = D.map(function (d, i) {
+    var b = document.createElement('button');
+    b.className = 'u057-f'; b.type = 'button';
+    b.setAttribute('aria-label', (i + 1) + '번째 후기, ' + d[1]);
+    b.style.setProperty('--g', d[3]);
+    b.innerHTML = '<i></i><svg viewBox="0 0 40 40" aria-hidden="true"><circle class="tr" cx="20" cy="20" r="18.5"/><circle class="pr" cx="20" cy="20" r="18.5" pathLength="100"/></svg>';
+    b.addEventListener('click', function () { show(i); });
+    faces.insertBefore(b, num);
+    return b;
+  });
+  // 인용문을 낱말로 나눠, 새 후기가 들어올 때 낱말이 차례로 떠오르게 합니다
+  function quote(d) {
+    var p = document.createElement('p');
+    p.className = 'u057-q';
+    var k = 0;
+    p.innerHTML = d[0].split(/(\*[^*]+\*)/).map(function (part) {
+      var hi = part.charAt(0) === '*';
+      var w = (hi ? part.slice(1, -1) : part).split(' ').filter(Boolean).map(function (x) { return '<span style="--i:' + (k++) + '">' + x + '</span>'; }).join(' ');
+      return hi ? ' <mark>' + w + '</mark> ' : w;
+    }).join('');
+    return p;
+  }
+  function show(i, dir) {
+    i = (i + D.length) % D.length;
+    if (i === cur) return;
+    dir = dir || (i > cur ? 1 : -1);
+    var old = view.querySelector('.u057-q.on');
+    cur = i;
+    var d = D[i];
+    root.style.setProperty('--c1', d[4]); root.style.setProperty('--c2', d[5]);
+    var q = quote(d);
+    view.appendChild(q);
+    void q.offsetWidth;
+    q.classList.add('on');
+    if (old) {
+      old.classList.remove('on');
+      old.style.transform = 'translateX(' + (-dir * 30) + 'px)'; old.style.opacity = '0';
+      setTimeout(function () { old.remove(); }, 500);
+    }
+    who.querySelector('b').textContent = d[1];
+    who.querySelector('small').textContent = d[2];
+    if (!rm && old) who.animate([{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], { duration: 450, easing: 'ease-out' });
+    btns.forEach(function (b, k) { b.setAttribute('aria-current', String(k === i)); b.style.setProperty('--p', 0); });
+    num.textContent = (i + 1) + ' / ' + D.length;
+    acc = 0; t0 = performance.now();
+  }
+  // 남은 시간은 고른 얼굴 둘레의 링으로 보여 주고, 다 차면 다음 후기로 넘어갑니다
+  function loop(now) {
+    if (!root.isConnected) return;
+    if (!paused && !rm) {
+      var p = Math.min(1, (acc + now - t0) / DUR);
+      btns[cur].style.setProperty('--p', p.toFixed(3));
+      if (p >= 1) show(cur + 1, 1);
+    }
+    raf = requestAnimationFrame(loop);
+  }
+  function pause(v) {
+    if (v === paused) return;
+    if (v) acc += performance.now() - t0; else t0 = performance.now();
+    paused = v;
+  }
+  root.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') pause(true); });
+  root.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse' && !root.contains(document.activeElement)) pause(false); });
+  root.addEventListener('focusin', function () { pause(true); });
+  root.addEventListener('focusout', function (e) { if (!root.contains(e.relatedTarget)) pause(false); });
+  root.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight') { e.preventDefault(); show(cur + 1, 1); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); show(cur - 1, -1); }
+  });
+  // 옆으로 끌면 인용문이 따라오고, 충분히 끌면 그 방향으로 넘어갑니다
+  var sx = 0, dragging = false;
+  view.addEventListener('pointerdown', function (e) { dragging = true; sx = e.clientX; view.setPointerCapture(e.pointerId); view.classList.add('drag'); });
+  view.addEventListener('pointermove', function (e) {
+    if (!dragging) return;
+    var q = view.querySelector('.u057-q.on');
+    if (q) { q.style.transition = 'none'; q.style.transform = 'translateX(' + (e.clientX - sx) * 0.6 + 'px)'; }
+  });
+  function end(e) {
+    if (!dragging) return;
+    dragging = false; view.classList.remove('drag');
+    var dx = e.clientX - sx, q = view.querySelector('.u057-q.on');
+    if (q) { q.style.transition = ''; q.style.transform = ''; }
+    if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
+  }
+  view.addEventListener('pointerup', end);
+  view.addEventListener('pointercancel', end);
+  show(0);
+  raf = requestAnimationFrame(loop);
+});
+})();
+</script>
+
+</div>
+      <div class="glass stage" data-edit="faq"><h3>자주 묻는 질문</h3>
+<!-- Lucian UX/UI Prompt #044 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#044 -->
+<style>
+.u044{position:relative;width:350px;height:400px;display:flex;flex-direction:column;gap:8px}
+.u044-it{position:relative;border-radius:20px;background:var(--ux-surface);box-shadow:0 0 0 1px var(--ux-line);transition:background-color .4s var(--ux-ease),box-shadow .5s var(--ux-ease),transform .5s var(--ux-spring)}
+.u044-it.open{box-shadow:0 0 0 1px var(--ux-line-2),0 22px 40px -22px var(--ux-shadow-strong);transform:translateY(-2px)}
+.u044-q{position:relative;display:flex;align-items:center;gap:12px;width:100%;min-height:58px;padding:0 14px 0 16px;border:0;border-radius:20px;background:none;font-size:14.5px;font-weight:680;letter-spacing:-.02em;color:var(--ux-ink);text-align:left}
+.u044-q:focus-visible{outline:2px solid var(--ux-accent);outline-offset:2px}
+.u044-n{font-size:12px;font-weight:800;color:var(--ux-ink-3);font-variant-numeric:tabular-nums;transition:color .3s}
+.u044-it.open .u044-n{color:var(--ux-accent)}
+.u044-t{flex:1}
+.u044-pm{position:relative;width:30px;height:30px;flex:none;border-radius:50%;background:var(--ux-surface-2);box-shadow:none;transition:background-color .35s var(--ux-ease),box-shadow .35s,transform .45s var(--ux-spring)}
+.u044-q:hover .u044-pm{transform:scale(1.1)}
+.u044-q:active .u044-pm{transform:scale(.9)}
+.u044-pm::before,.u044-pm::after{content:"";position:absolute;left:50%;top:50%;width:11px;height:2px;margin:-1px 0 0 -5.5px;border-radius:2px;background:var(--ux-ink);transition:transform .5s var(--ux-spring),background-color .3s}
+.u044-pm::after{transform:rotate(90deg)}
+.u044-it.open .u044-pm{background:var(--ux-ink);box-shadow:none}
+.u044-it.open .u044-pm::before,.u044-it.open .u044-pm::after{background:var(--ux-page)}
+.u044-it.open .u044-pm::after{transform:rotate(180deg)}
+.u044-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s var(--ux-ease)}
+.u044-it.open .u044-body{grid-template-rows:1fr}
+.u044-body>div{overflow:hidden;min-height:0}
+.u044-a{padding:0 18px 16px 42px;opacity:0;transform:translateY(-8px);transition:opacity .25s var(--ux-ease),transform .45s var(--ux-spring)}
+.u044-it.open .u044-a{opacity:1;transform:none;transition-delay:.12s}
+.u044-a p{margin:0;font-size:13.5px;line-height:1.62;color:var(--ux-ink-2)}
+.u044-a a{display:inline-flex;align-items:center;gap:4px;margin-top:10px;font-size:13px;font-weight:700;color:var(--ux-accent);text-decoration:none}
+.u044-a a:focus-visible{outline:2px solid var(--ux-accent);outline-offset:2px;border-radius:4px}
+.u044-a a i{font-style:normal;transition:transform .3s var(--ux-spring)}
+.u044-a a:hover i{transform:translateX(3px)}
+</style>
+<div class="ux u044"></div>
+<script>
+(function () {
+  var root = document.currentScript.previousElementSibling;
+  window.LXQ.push(function (SITE) {
+  SITEKIT.faq044(root, SITE);
+  var items = Array.prototype.slice.call(root.querySelectorAll('.u044-it'));
+  var qs = items.map(function (it) { return it.querySelector('.u044-q'); });
+  var uid = 'u044-' + Math.random().toString(36).slice(2, 7);
+  // 같은 요소가 여러 번 놓여도 id가 겹치지 않게 합니다
+  items.forEach(function (it, i) {
+    var q = qs[i], body = it.querySelector('.u044-body');
+    q.id = uid + '-q' + i; body.id = uid + '-a' + i;
+    q.setAttribute('aria-controls', body.id); body.setAttribute('aria-labelledby', q.id);
+  });
+  function set(it, open) {
+    it.classList.toggle('open', open);
+    it.querySelector('.u044-q').setAttribute('aria-expanded', String(open));
+    // 접힌 답변 속 링크는 탭 순서에서 빠집니다
+    it.querySelector('.u044-a a').tabIndex = open ? 0 : -1;
+  }
+  items.forEach(function (it, i) {
+    set(it, it.classList.contains('open'));
+    qs[i].addEventListener('click', function () {
+      var willOpen = !it.classList.contains('open');
+      items.forEach(function (o) { if (o !== it) set(o, false); });
+      set(it, willOpen);
+    });
+    qs[i].addEventListener('keydown', function (e) {
+      var n = e.key === 'ArrowDown' ? i + 1 : e.key === 'ArrowUp' ? i - 1 : e.key === 'Home' ? 0 : e.key === 'End' ? qs.length - 1 : -2;
+      if (n === -2) return;
+      e.preventDefault();
+      qs[(n + qs.length) % qs.length].focus();
+    });
+  });
+});
+})();
+</script>
+
+</div>
+    </div>
+  </section>
+
+  <section class="block split" id="apply">
+    <div data-edit="apply">
+      <div class="label">APPLY</div>
+      <h2 class="sec">📬 연수 신청</h2>
+      <p class="sec-lead" data-k="settings.deadlineText"></p>
+      <div class="contact">
+        <div><span>문의</span><span data-k="settings.contactPlace"></span></div>
+        <div><span>전화</span><span data-k="settings.contactPhone"></span></div>
+      </div>
+      <p class="sec-lead note" id="demo-note">시트와 아직 연결되지 않은 미리보기라 신청이 실제로 접수되지는 않습니다.</p>
+    </div>
+    <div class="stage">
+<!-- Lucian UX/UI Prompt #244 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#244 -->
+<style>
+.u244{position:relative;width:300px;height:480px;border-radius:32px;overflow:hidden;background:var(--ux-surface);box-shadow:0 0 0 1px var(--ux-line),0 30px 60px -36px var(--ux-shadow-strong);color:var(--ux-ink)}
+.u244-sc{position:absolute;inset:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;padding:24px 20px 26px}
+.u244-sc::-webkit-scrollbar{display:none}
+.u244 h3{margin:0;font-size:20px;font-weight:900;letter-spacing:-.035em}
+.u244-sc>p{margin:3px 0 0;font-size:11px;font-weight:650;color:var(--ux-ink-3)}
+.u244-sm{display:grid;grid-template-rows:0fr;margin-top:0;transition:grid-template-rows .4s cubic-bezier(.3,1,.4,1),margin .4s}
+.u244-sm>div{min-height:0;overflow:hidden}
+.u244.is-err .u244-sm{grid-template-rows:1fr;margin-top:14px}
+.u244-sb{padding:11px 13px;border-radius:13px;background:color-mix(in srgb,#E11D48 10%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,#E11D48 30%,transparent)}
+.u244-sb b{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:850;color:#BE123C}
+.u244-sb b i{width:16px;height:16px;border-radius:50%;background:#E11D48;color:#fff;font-style:normal;font-size:10px;font-weight:900;display:grid;place-items:center}
+.u244-sb ul{margin:6px 0 0;padding:0 0 0 22px;font-size:11px;font-weight:700}
+.u244-sb li{margin-top:2px;transition:opacity .25s}
+.u244-sb li.is-fixed{opacity:.4;text-decoration:line-through}
+.u244-sb a{color:#BE123C;text-underline-offset:2px;cursor:pointer}
+.u244-fd{margin-top:14px}
+.u244-fd label{display:block;font-size:11px;font-weight:800;color:var(--ux-ink-2)}
+.u244-bx{position:relative;margin-top:6px}
+.u244-in{width:100%;height:44px;padding:0 38px 0 13px;border:0;border-radius:12px;background:var(--ux-surface-2);box-shadow:inset 0 0 0 1.5px var(--ux-line);color:var(--ux-ink);font:inherit;font-size:13px;font-weight:700;outline:none;box-sizing:border-box;transition:box-shadow .2s}
+.u244-in:focus{box-shadow:inset 0 0 0 2px var(--ux-accent)}
+.u244-fd.is-bad .u244-in{box-shadow:inset 0 0 0 2px #E11D48}
+.u244-fd.is-good .u244-in{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,#10B981 60%,transparent)}
+.u244-fd.is-shake .u244-bx{animation:u244-sh .4s}
+@keyframes u244-sh{20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
+.u244-ok{position:absolute;right:12px;top:12px;width:20px;height:20px;border-radius:50%;background:#10B981;transform:scale(0);transition:transform .35s cubic-bezier(.3,1.7,.5,1)}
+.u244-ok::after{content:"";position:absolute;left:7px;top:4px;width:4px;height:8px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.u244-fd.is-good .u244-ok{transform:none}
+.u244-ms{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s cubic-bezier(.3,1,.4,1)}
+.u244-ms>div{min-height:0;overflow:hidden;font-size:10.5px;font-weight:750;color:#BE123C}
+.u244-ms>div>span{display:block;padding-top:5px}
+.u244-fd.is-bad .u244-ms{grid-template-rows:1fr}
+.u244-ag{display:flex;align-items:center;gap:9px;margin-top:16px;padding:0;border:0;background:none;color:var(--ux-ink);font:inherit;font-size:11.5px;font-weight:700;cursor:pointer;text-align:left}
+.u244-ag i{flex:none;width:20px;height:20px;border-radius:6px;box-shadow:inset 0 0 0 1.5px var(--ux-line);display:grid;place-items:center;transition:background .2s,box-shadow .2s}
+.u244-ag[aria-checked="true"] i{background:var(--ux-accent);box-shadow:none}
+.u244-ag[aria-checked="true"] i::after{content:"";width:4px;height:8px;margin-top:-2px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.u244-ag.is-bad i{box-shadow:inset 0 0 0 2px #E11D48}
+.u244-ag.is-shake{animation:u244-sh .4s}
+.u244-go{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;height:48px;margin-top:20px;border:0;border-radius:13px;background:var(--ux-ink);color:var(--ux-surface);font:inherit;font-size:13px;font-weight:850;cursor:pointer;transition:background .3s}
+.u244-go.is-done{background:#059669}
+.u244 button:focus-visible,.u244 a:focus-visible{outline:2px solid var(--ux-accent);outline-offset:2px}
+@media (prefers-reduced-motion: reduce){.u244-sm,.u244-ms,.u244-ok{transition:none}.u244-fd.is-shake .u244-bx,.u244-ag.is-shake{animation:none}}
+</style>
+<div class="ux u244">
+  <form class="u244-sc" novalidate aria-label="연수 신청 폼">
+    <h3>연수 신청</h3><p>입력한 내용은 연수 안내에만 씁니다</p>
+    <div class="u244-sm" role="alert"><div><div class="u244-sb"><b><i>!</i><span class="u244-ct"></span></b><ul></ul></div></div></div>
+    <div class="u244-fs"></div>
+    <button type="button" class="u244-ag" role="checkbox" aria-checked="false"><i aria-hidden="true"></i>연수 안내를 위한 개인정보 수집에 동의해요</button>
+    <button type="submit" class="u244-go">신청하기</button>
+  </form>
+</div>
+<script>
+(function () {
+  var root = document.currentScript.previousElementSibling;
+  window.LXQ.push(function (SITE) {
+  if (!SITE.settings.applyOpen) { var g0 = root.querySelector('.u244-go'); g0.disabled = true; g0.textContent = '지금은 신청을 받지 않아요'; }
+  var sc = root.querySelector('.u244-sc'), fs = root.querySelector('.u244-fs'), ul = root.querySelector('.u244-sb ul'), ct = root.querySelector('.u244-ct'), ag = root.querySelector('.u244-ag'), go = root.querySelector('.u244-go');
+  var rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var uid = 'u244' + Math.random().toString(36).slice(2, 7);
+  // [이름, 종류, 처음 값, 틀렸을 때 안내]
+  var F = [['이름', 'text', '', '이름을 입력해 주세요'], ['학교 메일', 'email', '', '메일 형식이 맞지 않아요 (예: name@school.go.kr)'], ['소속 학교', 'text', '', '소속 학교를 입력해 주세요'], ['전화번호 (선택)', 'tel', '', '']];
+  var RULE = [function (v) { return v.trim().length > 0; }, function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v); }, function (v) { return v.trim().length > 1; }, function () { return true; }];
+  var tried = false;
+  var fields = F.map(function (f, i) {
+    var d = document.createElement('div'); d.className = 'u244-fd';
+    d.innerHTML = '<label></label><div class="u244-bx"><input class="u244-in" autocomplete="off"><span class="u244-ok" aria-hidden="true"></span></div><div class="u244-ms"><div><span></span></div></div>';
+    var inp = d.querySelector('input'); inp.type = f[1]; inp.value = f[2]; inp.id = uid + i;
+    var lb = d.querySelector('label'); lb.textContent = f[0]; lb.htmlFor = inp.id;
+    var ms = d.querySelector('.u244-ms span'); ms.textContent = f[3]; ms.id = uid + 'm' + i; inp.setAttribute('aria-describedby', ms.id);
+    inp.addEventListener('input', function () { if (tried) state(); });
+    fs.appendChild(d); return { el: d, inp: inp };
+  });
+  function bad() { var b = []; fields.forEach(function (f, i) { if (!RULE[i](f.inp.value)) b.push(i); }); if (ag.getAttribute('aria-checked') !== 'true') b.push(4); return b; }
+  // 부드럽게 그 칸이 보이는 곳까지 올라갑니다
+  function goTo(el, fn) {
+    var y = Math.max(0, el.offsetTop - 70), y0 = sc.scrollTop, t0 = performance.now(), ms = rm ? 0 : 520;
+    (function f(now) { var k = ms ? Math.min(1, (now - t0) / ms) : 1, e = 1 - Math.pow(1 - k, 3); sc.scrollTop = y0 + (y - y0) * e; if (k < 1) requestAnimationFrame(f); else if (fn) fn(); })(t0);
+  }
+  var listed = [];
+  function state() {
+    var b = bad();
+    fields.forEach(function (f, i) { var wrong = b.indexOf(i) >= 0; f.el.classList.toggle('is-bad', wrong); f.el.classList.toggle('is-good', !wrong && f.inp.value.length > 0); f.inp.setAttribute('aria-invalid', wrong); });
+    ag.classList.toggle('is-bad', b.indexOf(4) >= 0);
+    // 처음 틀렸던 항목은 목록에 남기고, 고치면 줄을 긋습니다
+    Array.prototype.forEach.call(ul.children, function (li) { li.classList.toggle('is-fixed', b.indexOf(+li.dataset.i) < 0); });
+    ct.textContent = b.length + '개 항목을 확인해 주세요';
+    root.classList.toggle('is-err', b.length > 0);
+    return b;
+  }
+  function shake(el) { el.classList.remove('is-shake'); void el.offsetWidth; el.classList.add('is-shake'); }
+  sc.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (go.classList.contains('is-done') || go.disabled) return;
+    tried = true; var b = state();
+    if (!b.length) { SITEKIT.submit(fields.map(function (f) { return f.inp.value; }), go, SITE); return; }
+    ul.innerHTML = '';
+    b.forEach(function (i) {
+      var li = document.createElement('li'); li.dataset.i = i; var a = document.createElement('a'); a.href = '#'; a.textContent = i < 4 ? F[i][0].replace(/ \(.*\)/, '') : '개인정보 동의';
+      a.addEventListener('click', function (ev) { ev.preventDefault(); var t = i < 4 ? fields[i] : null; goTo(t ? t.el : ag, function () { (t ? t.inp : ag).focus({ preventScroll: true }); }); });
+      li.appendChild(a); ul.appendChild(li);
+    });
+    b.forEach(function (i) { shake(i < 4 ? fields[i].el : ag); });
+    var first = b[0];
+    // 요약이 펼쳐진 뒤 첫 번째 틀린 칸으로 데려갑니다
+    setTimeout(function () { goTo(first < 4 ? fields[first].el : ag, function () { (first < 4 ? fields[first].inp : ag).focus({ preventScroll: true }); }); }, rm ? 0 : 200);
+  });
+  ag.addEventListener('click', function () { ag.setAttribute('aria-checked', ag.getAttribute('aria-checked') !== 'true'); if (tried) state(); });
+});
+})();
+</script>
+
+</div>
+  </section>
+
+  <footer data-edit="site">
+    <div class="foot-row"><span data-k="settings.footerText"></span><button type="button" class="lock-btn" id="lock-btn">🔒 관리자</button></div>
+  </footer>
+</div>
+
+<dialog class="adm" id="adm" aria-label="관리자">
+  <div class="adm-card narrow" id="adm-login">
+    <div class="adm-top"><div class="sp"><h2>🔒 관리자 로그인</h2><p class="sub">Settings 탭의 adminPassword를 입력하세요.</p></div><button type="button" class="x" data-close aria-label="닫기">×</button></div>
+    <form id="adm-form">
+      <label for="adm-pw">관리자 비밀번호</label>
+      <input type="password" id="adm-pw" autocomplete="current-password" required>
+      <p class="err" id="adm-err" role="alert"></p>
+      <button type="submit" class="go" id="adm-go">로그인</button>
+    </form>
+  </div>
+  <div class="adm-card" id="adm-panel" hidden>
+    <div class="adm-top">
+      <div class="sp"><h2>📋 연수 신청 관리</h2><p class="sub">상태와 메모를 바꾸면 시트에 바로 저장됩니다. 사이트 문구는 각 영역의 ✏️ 버튼이나 시트에서 고칠 수 있어요.</p></div>
+      <button type="button" class="x" data-close aria-label="닫기">×</button>
+    </div>
+    <div class="chips" id="adm-chips"></div>
+    <div class="tools">
+      <input type="search" id="adm-q" placeholder="이름·학교·메일 검색" aria-label="신청자 검색">
+      <button type="button" class="ghost" id="adm-refresh">새로고침</button>
+      <a class="ghost" id="adm-sheet" href="#" target="_blank" rel="noopener">시트 열기 ↗</a>
+      <button type="button" class="ghost" id="adm-logout">로그아웃</button>
+    </div>
+    <div class="tbl"><table>
+      <thead><tr><th>신청일시</th><th>이름</th><th>학교 메일</th><th>소속 학교</th><th>전화번호</th><th>상태</th><th>메모</th></tr></thead>
+      <tbody id="adm-rows"></tbody>
+    </table></div>
+    <p class="err" id="adm-err2" role="alert"></p>
+  </div>
+</dialog>
+
+
+<div class="abar" role="toolbar" aria-label="관리자 메뉴">
+  <span>✏️ 관리자 모드</span>
+  <button type="button" id="ab-apps">📋 신청 관리</button>
+  <button type="button" id="ab-site">⚙️ 사이트 설정</button>
+  <button type="button" id="ab-out">로그아웃</button>
+</div>
+
+<dialog class="adm" id="ed" aria-labelledby="ed-title">
+  <form class="adm-card" id="ed-form" style="max-width:720px;margin:0 auto">
+    <div class="adm-top"><div class="sp"><h2 id="ed-title">✏️ 내용 수정</h2><p class="sub" id="ed-sub">저장하면 구글 시트에 바로 반영됩니다.</p></div><button type="button" class="x" data-close aria-label="닫기">×</button></div>
+    <div id="ed-body"></div>
+    <p class="err" id="ed-err" role="alert"></p>
+    <div class="ed-foot"><button type="button" class="ghost" data-close>취소</button><button type="submit" class="go" id="ed-save">저장하기</button></div>
+  </form>
+</dialog>
+<script>
+/* ===== 시트 연동 설정 =====
+   Apps Script 웹 앱 URL을 넣으면 시트의 내용으로 사이트를 그리고, 신청을 시트에 저장합니다.
+   비워 두면 아래 DEFAULT 내용으로 보이는 미리보기가 됩니다. */
+var API_URL = '';
+
+var DEFAULT = {"ok": true, "settings": {"siteTitle": "AI 수업 설계 연수", "brandName": "JP Park 연수실", "brandInitials": "JP", "applyOpen": true, "capacity": 30, "deadlineText": "12월 20일까지 선착순으로 받습니다. 신청 후 3일 안에 학교 메일로 확정 안내를 보내 드립니다.", "contactPlace": "율포초등학교 수석교사실", "contactPhone": "031-000-0000", "footerText": "© 2026 박종필 · AI와 디지털로 더 나은 배움을 설계합니다."}, "content": {"eyebrow": "✨ 2027 겨울방학 교원 자율연수", "title1": "AI로 수업을 다시 설계하는", "title2": "4주간의 실습 연수", "lead": "생성형 AI를 **우리 반 교육과정에 자연스럽게 연결하는 방법**을, 매주 직접 만든 수업안으로 익힙니다. 이론보다 실습, 도구보다 **수업 설계**에 집중합니다.", "factPeriod": "1월 6일 – 1월 27일 · 매주 수", "factTime": "16:00 – 19:00 (주 3시간)", "factCredit": "15시간 · 1학점 인정", "factPlace": "율포초 미래교실 + 온라인 병행", "courseLead": "주제별로 나눠 보면 어떤 회차가 내 수업에 맞는지 바로 고를 수 있어요. 오른쪽 탭을 눌러 보세요.", "voicesLead": "지난 여름 연수에 참여한 선생님들의 후기와 자주 받은 질문을 모았습니다."}, "features": [{"icon": "🧭", "title": "수업 설계 중심", "text": "도구 사용법보다 **성취기준에서 출발하는 설계**를 다룹니다."}, {"icon": "🤖", "title": "AI 실습 4회", "text": "매주 **바로 쓸 수 있는 수업안 1개**를 완성해 가져갑니다."}, {"icon": "🌱", "title": "함께 성장", "text": "연수 후에도 **교사 학습공동체**에서 사례를 나눕니다."}], "weeks": [{"week": "1주", "title": "AI 리터러시와 수업 윤리", "desc": "학생과 함께 정하는 AI 사용 규칙", "time": "3시간"}, {"week": "2주", "title": "성취기준으로 시작하는 AI 수업", "desc": "백워드 설계에 AI 활동 끼워 넣기", "time": "3시간"}, {"week": "3주", "title": "피드백과 평가 도우미", "desc": "루브릭 기반 피드백 자동화", "time": "3시간"}, {"week": "4주", "title": "수업 나눔과 공개", "desc": "완성한 수업안 발표와 상호 피드백", "time": "3시간"}], "topics": [{"topic": "AI 기초", "title": "생성형 AI 작동 원리", "meta": "1주차 · 강의", "time": "40분"}, {"topic": "AI 기초", "title": "프롬프트 작성 실습", "meta": "1주차 · 실습", "time": "80분"}, {"topic": "AI 기초", "title": "AI 사용 규칙 만들기", "meta": "1주차 · 토의", "time": "60분"}, {"topic": "AI 기초", "title": "저작권과 개인정보", "meta": "사전 영상", "time": "30분"}, {"topic": "수업 설계", "title": "성취기준 분석하기", "meta": "2주차 · 실습", "time": "50분"}, {"topic": "수업 설계", "title": "AI 활동 끼워 넣기", "meta": "2주차 · 설계", "time": "70분"}, {"topic": "수업 설계", "title": "수업안 템플릿 채우기", "meta": "2주차 · 자료", "time": "60분"}, {"topic": "수업 설계", "title": "동료 검토", "meta": "4주차 · 나눔", "time": "90분"}, {"topic": "평가", "title": "루브릭 만들기", "meta": "3주차 · 실습", "time": "60분"}, {"topic": "평가", "title": "AI 피드백 초안 받기", "meta": "3주차 · 실습", "time": "60분"}, {"topic": "평가", "title": "피드백 다듬기", "meta": "3주차 · 토의", "time": "60분"}, {"topic": "평가", "title": "수업안 발표", "meta": "4주차 · 발표", "time": "90분"}], "faq": [{"q": "연수 시간이 학점으로 인정되나요?", "a": "네, 15시간을 모두 이수하면 교원 자율연수 1학점으로 인정됩니다. 출석은 매 회차 확인합니다.", "linkText": "일정 보기", "target": "course"}, {"q": "AI를 처음 써 보는데 따라갈 수 있을까요?", "a": "1주차에 기초부터 함께 실습합니다. 노트북만 준비하면 계정 만들기부터 안내해 드려요.", "linkText": "1주차 내용 보기", "target": "course"}, {"q": "온라인으로만 참여해도 되나요?", "a": "네, 모든 회차를 실시간 온라인으로 함께 진행합니다. 실습 자료는 하루 전에 공유합니다.", "linkText": "신청하러 가기", "target": "apply"}, {"q": "다른 학교 선생님도 신청할 수 있나요?", "a": "경기도 초등 교원이면 누구나 신청할 수 있어요. 정원 30명, 선착순입니다.", "linkText": "신청하러 가기", "target": "apply"}], "reviews": [{"quote": "AI가 겁났는데 *첫 주부터* 우리 반 수업안이 나왔어요.", "name": "김○○ 선생님", "role": "초등 4학년 담임"}, {"quote": "평가 피드백에 쓰던 시간이 *눈에 띄게* 줄었습니다.", "name": "이○○ 선생님", "role": "초등 6학년 담임"}, {"quote": "설계부터 배우니 *다른 과목에도* 바로 옮겨 쓰게 돼요.", "name": "박○○ 선생님", "role": "과학 전담"}, {"quote": "동료 수업안을 보며 *아이디어가* 두 배로 늘었어요.", "name": "최○○ 선생님", "role": "초등 2학년 담임"}], "stats": {"applied": 22, "remaining": 8}};
+
+var SITEKIT = (function () {
+  var GR = ['linear-gradient(140deg,#3b63f6,#8e9cff)', 'linear-gradient(140deg,#38bdf8,#7fd8c9)', 'linear-gradient(140deg,#ffcf70,#f59e0b)', 'linear-gradient(140deg,#ff9fb5,#8e9cff)'];
+  var C1 = ['#3b63f6', '#38bdf8', '#ffcf70', '#ff9fb5'], C2 = ['#8e9cff', '#7fd8c9', '#f59e0b', '#8e9cff'];
+  function esc(v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function md(v) { return esc(v).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>'); }
+  function get(S, path) { return path.split('.').reduce(function (o, k) { return o ? o[k] : ''; }, S); }
+
+  function post(body) {
+    return fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) })
+      .then(function (r) { return r.json(); });
+  }
+
+  function seats(S) {
+    var cap = S.settings.capacity, st = S.stats || {};
+    var box = document.getElementById('seats');
+    if (!cap || st.applied == null) { box.hidden = true; return; }
+    box.hidden = false;
+    var used = Math.min(cap, st.applied), left = Math.max(0, cap - st.applied);
+    var txt = '정원 ' + cap + '명 중 ' + st.applied + '명 신청 · ' + (left ? '남은 자리 ' + left + '석' : '정원이 찼어요 (대기 접수)');
+    document.getElementById('seat-text').textContent = txt;
+    var bar = document.getElementById('seat-bar');
+    bar.setAttribute('aria-label', txt);
+    bar.firstElementChild.style.width = Math.round(used / cap * 100) + '%';
+  }
+
+  function render(S) {
+    document.querySelectorAll('[data-k]').forEach(function (el) { el.textContent = get(S, el.getAttribute('data-k')) || ''; });
+    document.querySelectorAll('[data-md]').forEach(function (el) { el.innerHTML = md(get(S, el.getAttribute('data-md'))); });
+    if (S.settings.siteTitle) document.title = S.settings.siteTitle;
+    document.getElementById('features').innerHTML = (S.features || []).map(function (f) {
+      return '<div class="feat"><div class="emo" aria-hidden="true">' + esc(f.icon) + '</div><h3>' + esc(f.title) + '</h3><p>' + md(f.text) + '</p></div>';
+    }).join('');
+    document.getElementById('weeks').innerHTML = (S.weeks || []).map(function (w) {
+      return '<li><span class="w">' + esc(w.week) + '</span><div><b>' + esc(w.title) + '</b><small>' + esc(w.desc) + '</small></div></li>';
+    }).join('');
+    seats(S);
+    var cta = document.getElementById('cta');
+    cta.textContent = S.settings.applyOpen ? '연수 신청하기 →' : '신청이 마감됐어요';
+    document.getElementById('demo-note').hidden = !!API_URL;
+  }
+
+  // #039 탭: 첫 탭은 주차 전체, 나머지는 세부과정의 주제별
+  function topics(S) {
+    var labels = ['전체'], data = [(S.weeks || []).map(function (w, k) { return [esc(w.title), esc(w.week + ' · ' + w.desc), esc(w.time), GR[k % 4]]; })];
+    (S.topics || []).forEach(function (t) {
+      var i = labels.indexOf(t.topic);
+      if (i < 0) { labels.push(t.topic); data.push([]); i = labels.length - 1; }
+      data[i].push([esc(t.title), esc(t.meta), esc(t.time), GR[data[i].length % 4]]);
+    });
+    return { labels: labels, data: data };
+  }
+  function tabs039(root, S) {
+    var t = topics(S), bar = root.querySelector('.u039-tabs');
+    bar.querySelectorAll('.u039-tab').forEach(function (b) { b.remove(); });
+    t.labels.forEach(function (l, i) {
+      var b = document.createElement('button');
+      b.className = 'u039-tab'; b.type = 'button'; b.setAttribute('role', 'tab');
+      b.setAttribute('aria-selected', String(i === 0)); b.textContent = l;
+      bar.appendChild(b);
+    });
+    return t.data;
+  }
+  function reviews(S) {
+    return (S.reviews || []).map(function (r, k) {
+      return [esc(r.quote), r.name, r.role, GR[k % 4], C1[k % 4], C2[k % 4]];
+    });
+  }
+  function faq044(root, S) {
+    root.innerHTML = (S.faq || []).map(function (f, i) {
+      var href = f.target === 'apply' ? '#apply' : '#course';
+      return '<div class="u044-it' + (i === 0 ? ' open' : '') + '"><button class="u044-q" type="button" aria-expanded="' + (i === 0) + '"><span class="u044-n">' + (i < 9 ? '0' : '') + (i + 1) + '</span><span class="u044-t">' + esc(f.q) + '</span><span class="u044-pm" aria-hidden="true"></span></button>' +
+        '<div class="u044-body" role="region"><div><div class="u044-a"><p>' + esc(f.a) + '</p><a href="' + href + '">' + esc(f.linkText || '자세히 보기') + ' <i aria-hidden="true">→</i></a></div></div></div></div>';
+    }).join('');
+  }
+
+  // #244 신청: 시트로 보내고 결과를 버튼에 보여 줍니다
+  function submit(vals, go, S) {
+    if (!API_URL) { go.classList.add('is-done'); go.textContent = '미리보기라 접수되지 않았어요'; return; }
+    go.disabled = true; go.textContent = '보내는 중…';
+    post({ action: 'apply', name: vals[0], email: vals[1], school: vals[2], phone: vals[3] })
+      .then(function (r) {
+        if (!r.ok) throw new Error(r.error || '신청을 저장하지 못했어요');
+        go.classList.add('is-done');
+        go.textContent = r.status === '대기' ? '대기자로 접수됐어요' : '신청 완료! 확정 안내를 보내 드릴게요';
+        if (r.stats) { S.stats = r.stats; seats(S); }
+      })
+      .catch(function (e) { go.disabled = false; go.textContent = (e.message || '연결에 실패했어요') + ' · 다시 신청하기'; });
+  }
+
+  return { esc: esc, render: render, tabs039: tabs039, reviews: reviews, faq044: faq044, submit: submit, post: post };
+})();
+</script>
+<script>
+(function () {
+  var SITE = null, started = false;
+  var LIVE_LISTS = ['weeks', 'topics', 'faq', 'reviews'];   // Lucian 요소가 쓰는 목록은 저장 후 새로 그립니다
+
+  function start(S) {
+    SITE = S; started = true;
+    SITEKIT.render(S);
+    window.LXQ.forEach(function (fn) { try { fn(S); } catch (e) { console.error(e); } });
+  }
+
+  SITEKIT.render(DEFAULT);
+  if (!API_URL) { start(DEFAULT); }
+  else {
+    var done = false;
+    var timer = setTimeout(function () { if (!done) { done = true; console.warn('시트 응답이 늦어 기본 내용으로 표시합니다'); start(DEFAULT); } }, 8000);
+    fetch(API_URL).then(function (r) { return r.json(); }).then(function (S) {
+      if (done) return;
+      done = true; clearTimeout(timer);
+      if (!S.ok) throw new Error(S.error || 'load failed');
+      start(S);
+    }).catch(function (e) {
+      if (done) return;
+      done = true; clearTimeout(timer); console.warn('시트를 읽지 못해 기본 내용으로 표시합니다', e); start(DEFAULT);
+    });
+  }
+
+  /* ===== 관리자 로그인 ===== */
+  var $ = function (id) { return document.getElementById(id); };
+  var dlg = $('adm'), login = $('adm-login'), panel = $('adm-panel');
+  var pwIn = $('adm-pw'), err = $('adm-err'), err2 = $('adm-err2');
+  var pw = '', adminSettings = {}, apps = [], statuses = ['접수', '확정', '대기', '취소'];
+
+  function openDlg(d) { if (typeof d.showModal === 'function') { if (!d.open) d.showModal(); } else d.setAttribute('open', ''); }
+  function closeDlg(d) { if (d.close) d.close(); else d.removeAttribute('open'); }
+  function call(extra) {
+    if (!API_URL) return Promise.reject(new Error('시트와 연결한 뒤에 저장할 수 있어요'));
+    var body = { action: 'admin', password: pw };
+    for (var k in extra) body[k] = extra[k];
+    return SITEKIT.post(body).then(function (r) {
+      if (!r.ok) { if (/비밀번호/.test(r.error || '')) setAdmin(false); throw new Error(r.error || '요청에 실패했어요'); }
+      return r;
+    });
+  }
+  function setAdmin(on) {
+    document.body.classList.toggle('is-admin', on);
+    if (!on) { pw = ''; try { sessionStorage.removeItem('adm-pw'); } catch (e) {} }
+  }
+
+  $('lock-btn').addEventListener('click', function () {
+    if (document.body.classList.contains('is-admin')) return;
+    login.hidden = false; panel.hidden = true;
+    err.textContent = API_URL ? '' : '시트와 연결한 뒤에 쓸 수 있어요 (API_URL 설정 필요)';
+    openDlg(dlg); setTimeout(function () { pwIn.focus(); }, 30);
+  });
+  $('adm-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!API_URL) return;
+    var go = $('adm-go');
+    pw = pwIn.value; go.disabled = true; err.textContent = '';
+    call({ op: 'login' }).then(function (r) {
+      adminSettings = r.settings || {};
+      try { sessionStorage.setItem('adm-pw', pw); } catch (e2) {}
+      pwIn.value = ''; setAdmin(true); closeDlg(dlg);
+    }).catch(function (e2) { pw = ''; err.textContent = e2.message; })
+      .then(function () { go.disabled = false; });
+  });
+  // 같은 탭에서 새로고침해도 관리자 모드를 이어 갑니다
+  try { pw = sessionStorage.getItem('adm-pw') || ''; } catch (e) {}
+  if (pw && API_URL) call({ op: 'login' }).then(function (r) { adminSettings = r.settings || {}; setAdmin(true); }).catch(function () { setAdmin(false); });
+
+  $('ab-out').addEventListener('click', function () { setAdmin(false); });
+
+  /* ===== ✏️ 편집 ===== */
+  var F = function (key, label, type, hint) { return { key: key, label: label, type: type || 'text', hint: hint }; };
+  var EDIT = {
+    hero: { title: '첫 화면', fields: [F('content.eyebrow', '제목 위 라벨'), F('content.title1', '큰 제목 첫 줄'), F('content.title2', '큰 제목 둘째 줄 (그라디언트)'), F('content.lead', '소개 문장', 'area', '**굵게** 처럼 별표 두 개로 감싸면 굵게 보입니다')] },
+    facts: { title: '연수 한눈에', fields: [F('content.factPeriod', '기간'), F('content.factTime', '시간'), F('content.factCredit', '이수'), F('content.factPlace', '장소'), F('settings.capacity', '정원', 'number', '0이면 정원·남은 자리를 숨깁니다')] },
+    features: { title: '특징 카드', list: 'features', cols: [['icon', '아이콘'], ['title', '제목'], ['text', '설명 (**굵게** 가능)', 'area']] },
+    course: { title: '주차별 연수 과정', fields: [F('content.courseLead', '섹션 설명', 'area')], list: 'weeks', cols: [['week', '주차'], ['title', '제목', 'wide'], ['desc', '설명'], ['time', '시간']] },
+    topics: { title: '주제별 세부 과정 (탭)', list: 'topics', cols: [['topic', '주제 (탭 이름)'], ['title', '제목', 'wide'], ['meta', '부가 정보'], ['time', '시간']], hint: '첫 탭 "전체"는 주차별 과정으로 자동으로 채워집니다. 같은 주제끼리 한 탭으로 묶여요.' },
+    voices: { title: '후기·질문 섹션', fields: [F('content.voicesLead', '섹션 설명', 'area')] },
+    reviews: { title: '참여 후기', list: 'reviews', cols: [['quote', '후기 (*강조할 말*)', 'area'], ['name', '이름'], ['role', '소속']] },
+    faq: { title: '자주 묻는 질문', list: 'faq', cols: [['q', '질문', 'wide'], ['a', '답변', 'area'], ['linkText', '링크 문구'], ['target', '이동 위치 (course 또는 apply)']] },
+    apply: { title: '연수 신청', fields: [F('settings.applyOpen', '신청 받기', 'toggle'), F('settings.deadlineText', '안내 문구', 'area'), F('settings.contactPlace', '문의처'), F('settings.contactPhone', '문의 전화'), F('settings.notifyEmail', '신청 알림 메일', 'email', '신청이 들어오면 이 주소로 알림을 보냅니다. 비워 두면 보내지 않아요')] },
+    site: { title: '사이트 설정', fields: [F('settings.siteTitle', '사이트 제목 (브라우저 탭)'), F('settings.brandName', '로고 옆 이름'), F('settings.brandInitials', '로고 글자 (2자 권장)'), F('settings.footerText', '맨 아래 문구'), F('settings.adminPassword', '새 관리자 비밀번호', 'password', '바꿀 때만 입력하세요 (4자 이상). 비워 두면 그대로입니다')] }
+  };
+
+  document.querySelectorAll('[data-edit]').forEach(function (el) {
+    var id = el.getAttribute('data-edit'), b = document.createElement('button');
+    b.type = 'button'; b.className = 'pen'; b.textContent = '✏️';
+    b.setAttribute('aria-label', EDIT[id].title + ' 수정');
+    b.addEventListener('click', function () { openEditor(id); });
+    el.appendChild(b);
+  });
+  $('ab-site').addEventListener('click', function () { openEditor('site'); });
+
+  var ed = $('ed'), edBody = $('ed-body'), edErr = $('ed-err'), cur = null;
+
+  function valueOf(key) {
+    var p = key.split('.');
+    if (p[0] === 'settings') {
+      if (p[1] in adminSettings) return adminSettings[p[1]];
+      var v = SITE.settings[p[1]];
+      if (p[1] === 'applyOpen') return v ? '예' : '아니오';
+      return v == null ? '' : v;
+    }
+    return (SITE.content || {})[p[1]] || '';
+  }
+  function fieldEl(f, i) {
+    var wrap = document.createElement('label'); wrap.className = 'ed-f';
+    var cap = document.createElement('span'); cap.textContent = f.label; wrap.appendChild(cap);
+    var input;
+    if (f.type === 'area') { input = document.createElement('textarea'); }
+    else if (f.type === 'toggle') {
+      input = document.createElement('select');
+      ['예', '아니오'].forEach(function (o) { var op = document.createElement('option'); op.value = op.textContent = o; input.appendChild(op); });
+    } else { input = document.createElement('input'); input.type = f.type; if (f.type === 'number') input.min = 0; }
+    input.id = 'ed-' + i; input.name = f.key;
+    input.value = f.type === 'password' ? '' : valueOf(f.key);
+    if (f.type === 'password') input.autocomplete = 'new-password';
+    wrap.appendChild(input);
+    if (f.hint) { var h = document.createElement('small'); h.textContent = f.hint; wrap.appendChild(h); }
+    return wrap;
+  }
+  function rowEl(cols, data, list) {
+    var row = document.createElement('div'); row.className = 'ed-row';
+    var grid = document.createElement('div'); grid.className = 'ed-cols';
+    cols.forEach(function (c) {
+      var l = document.createElement('label'); l.textContent = c[1];
+      var inp = document.createElement(c[2] === 'area' ? 'textarea' : 'input');
+      inp.value = (data && data[c[0]]) || ''; inp.setAttribute('data-col', c[0]);
+      l.appendChild(inp);
+      if (c[2] === 'area' || c[2] === 'wide') { l.style.gridColumn = '1 / -1'; }
+      grid.appendChild(l);
+    });
+    var ops = document.createElement('div'); ops.className = 'ed-ops';
+    [['↑', '위로', -1], ['↓', '아래로', 1], ['삭제', '삭제', 0]].forEach(function (o) {
+      var b = document.createElement('button'); b.type = 'button'; b.textContent = o[0]; b.setAttribute('aria-label', o[1]);
+      if (!o[2]) b.className = 'del';
+      b.addEventListener('click', function () {
+        if (!o[2]) { row.remove(); return; }
+        var sib = o[2] < 0 ? row.previousElementSibling : row.nextElementSibling;
+        if (sib) list.insertBefore(row, o[2] < 0 ? sib : sib.nextElementSibling);
+      });
+      ops.appendChild(b);
+    });
+    row.appendChild(grid); row.appendChild(ops);
+    return row;
+  }
+
+  function openEditor(id) {
+    if (!SITE) return;
+    cur = EDIT[id];
+    $('ed-title').textContent = '✏️ ' + cur.title + ' 수정';
+    $('ed-sub').textContent = cur.hint || '저장하면 구글 시트에 바로 반영됩니다.';
+    edBody.textContent = ''; edErr.textContent = '';
+    (cur.fields || []).forEach(function (f, i) { edBody.appendChild(fieldEl(f, i)); });
+    if (cur.list) {
+      var list = document.createElement('div'); list.className = 'ed-list'; list.id = 'ed-list';
+      (SITE[cur.list] || []).forEach(function (d) { list.appendChild(rowEl(cur.cols, d, list)); });
+      var add = document.createElement('button'); add.type = 'button'; add.className = 'ed-add'; add.textContent = '+ 항목 추가';
+      add.addEventListener('click', function () { var r = rowEl(cur.cols, null, list); list.appendChild(r); r.querySelector('input,textarea').focus(); });
+      edBody.appendChild(list); edBody.appendChild(add);
+    }
+    openDlg(ed);
+  }
+
+  $('ed-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var save = $('ed-save'); save.disabled = true; edErr.textContent = '저장하는 중…';
+    var jobs = [];
+    if (cur.fields) {
+      var values = {};
+      cur.fields.forEach(function (f, i) {
+        var v = $('ed-' + i).value;
+        if (f.type === 'password' && !v) return;
+        values[f.key] = v;
+      });
+      if (values['settings.adminPassword'] && values['settings.adminPassword'].length < 4) {
+        edErr.textContent = '비밀번호는 4자 이상이어야 해요'; save.disabled = false; return;
+      }
+      jobs.push(function () {
+        return call({ op: 'saveKV', values: values }).then(function (r) {
+          if (values['settings.adminPassword']) { pw = values['settings.adminPassword']; try { sessionStorage.setItem('adm-pw', pw); } catch (e2) {} }
+          adminSettings = r.settings || adminSettings; return r;
+        });
+      });
+    }
+    if (cur.list) {
+      var rows = Array.prototype.map.call(document.querySelectorAll('#ed-list .ed-row'), function (row) {
+        return cur.cols.map(function (c) { return row.querySelector('[data-col="' + c[0] + '"]').value; });
+      });
+      jobs.push(function () { return call({ op: 'saveList', tab: cur.list, rows: rows }); });
+    }
+    var chain = Promise.resolve(), last = null;
+    jobs.forEach(function (j) { chain = chain.then(j).then(function (r) { last = r; }); });
+    chain.then(function () {
+      if (last && last.data) { SITE = last.data; SITEKIT.render(SITE); }
+      if (cur.list && LIVE_LISTS.indexOf(cur.list) >= 0) { edErr.textContent = '저장했어요. 화면을 새로 그립니다…'; setTimeout(function () { location.reload(); }, 500); return; }
+      edErr.textContent = ''; closeDlg(ed);
+    }).catch(function (e2) { edErr.textContent = e2.message; })
+      .then(function () { save.disabled = false; });
+  });
+
+  /* ===== 📋 신청 관리 ===== */
+  var rowsEl = $('adm-rows'), chips = $('adm-chips'), q = $('adm-q');
+  function applyList(r) {
+    apps = r.applications || []; statuses = r.statuses || statuses;
+    $('adm-sheet').href = r.sheetUrl || '#';
+    if (r.stats && SITE) { SITE.stats = r.stats; SITEKIT.render(SITE); }
+    draw();
+  }
+  function loadApps() {
+    err2.textContent = '불러오는 중…';
+    call({ op: 'list' }).then(function (r) { err2.textContent = ''; applyList(r); }).catch(function (e) { err2.textContent = e.message; });
+  }
+  $('ab-apps').addEventListener('click', function () { login.hidden = true; panel.hidden = false; openDlg(dlg); loadApps(); });
+  $('adm-refresh').addEventListener('click', loadApps);
+  $('adm-logout').addEventListener('click', function () { setAdmin(false); closeDlg(dlg); });
+  q.addEventListener('input', draw);
+
+  function draw() {
+    var counts = {}; statuses.forEach(function (s) { counts[s] = 0; });
+    apps.forEach(function (a) { counts[a.status] = (counts[a.status] || 0) + 1; });
+    chips.innerHTML = '<span class="chip">전체<b>' + apps.length + '</b></span>' + statuses.map(function (s) {
+      return '<span class="chip st-' + SITEKIT.esc(s) + '">' + SITEKIT.esc(s) + '<b>' + (counts[s] || 0) + '</b></span>';
+    }).join('');
+    var term = q.value.trim().toLowerCase();
+    var list = apps.filter(function (a) { return !term || (a.name + ' ' + a.school + ' ' + a.email).toLowerCase().indexOf(term) >= 0; });
+    rowsEl.textContent = '';
+    if (!list.length) { rowsEl.innerHTML = '<tr><td colspan="7" class="empty">' + (apps.length ? '검색 결과가 없어요' : '아직 들어온 신청이 없어요') + '</td></tr>'; return; }
+    list.forEach(function (a) {
+      var tr = document.createElement('tr');
+      [a.at, a.name, a.email, a.school, a.phone || '-'].forEach(function (v, i) {
+        var td = document.createElement('td'); td.textContent = v; if (i === 0) td.className = 'n'; tr.appendChild(td);
+      });
+      var tdS = document.createElement('td'), sel = document.createElement('select');
+      sel.setAttribute('aria-label', a.name + ' 상태');
+      statuses.forEach(function (s) { var o = document.createElement('option'); o.value = o.textContent = s; if (s === a.status) o.selected = true; sel.appendChild(o); });
+      sel.className = 'st-' + a.status;
+      sel.addEventListener('change', function () {
+        sel.disabled = true; err2.textContent = '';
+        call({ op: 'status', row: a.row, status: sel.value }).then(applyList).catch(function (e) { err2.textContent = e.message; sel.disabled = false; });
+      });
+      tdS.appendChild(sel); tr.appendChild(tdS);
+      var tdM = document.createElement('td'), memo = document.createElement('input');
+      memo.type = 'text'; memo.value = a.memo || ''; memo.placeholder = '메모'; memo.setAttribute('aria-label', a.name + ' 메모');
+      memo.addEventListener('change', function () {
+        err2.textContent = '메모 저장 중…';
+        call({ op: 'memo', row: a.row, memo: memo.value }).then(function (r) { err2.textContent = '메모를 저장했어요'; apps = r.applications || apps; }).catch(function (e) { err2.textContent = e.message; });
+      });
+      tdM.appendChild(memo); tr.appendChild(tdM);
+      rowsEl.appendChild(tr);
+    });
+  }
+
+  document.querySelectorAll('dialog [data-close]').forEach(function (b) { b.addEventListener('click', function () { closeDlg(b.closest('dialog')); }); });
+  [dlg, ed].forEach(function (d) { d.addEventListener('click', function (e) { if (e.target === d) closeDlg(d); }); });
+
+  // 미리보기(시트 미연결)에서 편집 화면을 둘러볼 수 있게: 주소 끝에 #edit-demo
+  if (!API_URL && location.hash === '#edit-demo') document.body.classList.add('is-admin');
+})();
+</script>
+</body>
+</html>
