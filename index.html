@@ -173,6 +173,21 @@ footer{padding-block:40px 48px;text-align:center;font-size:13px;color:var(--mute
 </head>
 <body>
 <style>
+
+/* loading: 아래 페이지를 흐리게 가리고 게이지가 차오릅니다 */
+.wrap>*:not(header.top){transition:filter .7s var(--ux-ease),opacity .7s var(--ux-ease)}
+body.is-loading .wrap>*:not(header.top){filter:blur(10px) saturate(.8);opacity:.55;pointer-events:none;user-select:none}
+.ld{position:fixed;inset:0;z-index:30;display:grid;place-items:center;pointer-events:none;opacity:0;visibility:hidden;transition:opacity .5s var(--ux-ease),visibility .5s}
+body.is-loading .ld{opacity:1;visibility:visible}
+.ld-card{display:flex;flex-direction:column;align-items:center;gap:14px;padding:26px 30px;border-radius:28px;background:var(--panel);border:1px solid var(--panel-line);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:var(--shadow)}
+.ld-jar{position:relative;width:76px;height:76px;border-radius:50%;overflow:hidden;background:var(--ux-surface-2);box-shadow:inset 0 0 0 2px var(--pill-line)}
+.ld-fill{position:absolute;left:-50%;right:-50%;bottom:0;height:calc(var(--p,0) * 1%);background:var(--head-grad);transition:height .45s var(--ux-ease)}
+.ld-fill::before,.ld-fill::after{content:"";position:absolute;left:0;right:0;top:-14px;height:28px;border-radius:45%;background:var(--ux-surface-2);animation:ld-wave 2.4s linear infinite}
+.ld-fill::after{opacity:.5;border-radius:40%;animation-duration:3.6s}
+@keyframes ld-wave{to{transform:rotate(360deg)}}
+.ld-pct{position:absolute;inset:0;display:grid;place-items:center;font-size:15px;font-weight:850;color:var(--ink);font-variant-numeric:tabular-nums;text-shadow:0 1px 6px var(--ux-surface)}
+.ld-msg{font-size:14px;font-weight:700;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){.ld-fill::before,.ld-fill::after{animation:none}.wrap>*:not(header.top){transition:none}}
 [hidden]{display:none!important}
 @media (min-width:1025px){.wrap{max-width:none;width:85%;padding-left:0;padding-right:0}}
 .stage{min-height:200px}
@@ -296,7 +311,8 @@ body.is-admin footer{padding-bottom:110px}
 </style>
 
 <div class="blobs" aria-hidden="true"><div class="blob a"></div><div class="blob b"></div><div class="blob c"></div></div>
-<script>window.LXQ = [];</script>
+<script>window.LXQ = []; document.body.classList.add('is-loading');</script>
+<div class="ld" id="ld" role="status" aria-live="polite"><div class="ld-card"><div class="ld-jar"><div class="ld-fill" id="ld-fill"></div><span class="ld-pct" id="ld-pct">0%</span></div><p class="ld-msg" id="ld-msg">연수 정보를 불러오는 중…</p></div></div>
 
 <div class="wrap">
   <header class="top">
@@ -1022,14 +1038,32 @@ var SITEKIT = (function () {
   }
 
   /* ---------- 처음 불러오기 ---------- */
+  var loader = (function () {
+    var p = 0, timer = null, fill = $('ld-fill'), pct = $('ld-pct');
+    function set(v) { p = v; fill.style.setProperty('--p', v); pct.textContent = Math.round(v) + '%'; }
+    return {
+      begin: function () {
+        document.body.classList.add('is-loading'); set(4);
+        // 응답이 올 때까지 92%까지 점점 느리게 차오릅니다
+        timer = setInterval(function () { set(p + (92 - p) * 0.08); }, 160);
+      },
+      done: function () {
+        clearInterval(timer); set(100);
+        setTimeout(function () { document.body.classList.remove('is-loading'); }, 380);
+      }
+    };
+  })();
+
   SITEKIT.render(DEFAULT);
-  if (!API_URL) start(DEFAULT);
+  if (!API_URL) { document.body.classList.remove('is-loading'); start(DEFAULT); }
   else {
+    loader.begin();
     var timeout = new Promise(function (_, rej) { setTimeout(function () { rej(new Error('시트 응답이 늦어요')); }, 10000); });
     var load = pw
       ? adminCall({ op: 'view', course: VIEW }).then(function (r) { setAdmin(true); return r.data; }).catch(function () { return publicLoad(); })
       : publicLoad();
-    Promise.race([load, timeout]).then(start).catch(function (e) {
+    Promise.race([load, timeout]).then(function (S) { start(S); loader.done(); }).catch(function (e) {
+      loader.done();
       console.warn(e);
       if (VIEW) { $('viewing').hidden = false; $('viewing').textContent = e.message + ' · '; var a = document.createElement('a'); a.href = location.pathname; a.textContent = '진행 중인 연수 보기 →'; $('viewing').appendChild(a); }
       start(DEFAULT);
