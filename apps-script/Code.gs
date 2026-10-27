@@ -34,6 +34,7 @@ var DONE = ['', '이수', '미이수'];
 var LISTS = ['sessions', 'topics', 'features', 'faq', 'reviews'];
 var COMMON_OK = ['features', 'faq'];             // 연수 ID를 비우면 모든 연수 공통
 var TZ = 'Asia/Seoul';
+var DEFAULT_PRIVACY = '수집 항목: 이름, 학교 메일, 소속 학교, 전화번호(선택)\n수집·이용 목적: 연수 신청 확인, 일정·확정 안내, 출석·이수 관리\n보유 기간: 연수 이수 기록 관리를 위해 연수 종료 후 3년간 보관한 뒤 파기합니다.\n동의를 거부할 수 있으며, 거부하면 연수 신청이 어렵습니다.';
 
 /* ============ 처음 설정 ============ */
 
@@ -53,7 +54,8 @@ function setup() {
       ['notifyEmail', '', '신청이 들어오면 알림 메일을 받을 주소 (비워 두면 보내지 않음)'],
       ['contactPlace', '율포초등학교 수석교사실', '문의처'],
       ['contactPhone', '031-000-0000', '문의 전화'],
-      ['footerText', '© 2026 박종필 · AI와 디지털로 더 나은 배움을 설계합니다.', '맨 아래 문구']];
+      ['footerText', '© 2026 박종필 · AI와 디지털로 더 나은 배움을 설계합니다.', '맨 아래 문구'],
+      ['privacyNotice', DEFAULT_PRIVACY, '신청 폼의 개인정보 수집·이용 안내 (줄바꿈 가능)']];
     st.getRange(1, 1, rows.length, 3).setValues(rows);
     styleHeader_(st, 3, [160, 420, 380]);
   }
@@ -280,7 +282,8 @@ function countActive_(courseId) {
 
 function siteSettings_(s) {
   return { siteTitle: s.siteTitle || '', brandName: s.brandName || '', brandInitials: s.brandInitials || '',
-           contactPlace: s.contactPlace || '', contactPhone: s.contactPhone || '', footerText: s.footerText || '' };
+           contactPlace: s.contactPlace || '', contactPhone: s.contactPhone || '', footerText: s.footerText || '',
+           privacyNotice: s.privacyNotice || DEFAULT_PRIVACY };
 }
 
 function courseData_(id, admin) {
@@ -408,12 +411,13 @@ function refreshPeople_() {
 
 /* ============ 관리자 ============ */
 
-var SETTINGS_EDITABLE = ['siteTitle', 'brandName', 'brandInitials', 'adminPassword', 'currentCourse', 'notifyEmail', 'contactPlace', 'contactPhone', 'footerText'];
+var SETTINGS_EDITABLE = ['siteTitle', 'brandName', 'brandInitials', 'adminPassword', 'currentCourse', 'notifyEmail', 'contactPlace', 'contactPhone', 'footerText', 'privacyNotice'];
 var COURSE_EDITABLE = ['status', 'name', 'eyebrow', 'title1', 'title2', 'lead', 'period', 'time', 'credit', 'place', 'capacity', 'openAt', 'closeAt', 'applyText', 'courseLead', 'voicesLead', 'completion'];
 
 function adminSettings_() {
   var s = settings_(), o = {};
   SETTINGS_EDITABLE.forEach(function (k) { if (k !== 'adminPassword') o[k] = s[k] == null ? '' : s[k]; });
+  if (!o.privacyNotice) o.privacyNotice = DEFAULT_PRIVACY;
   return o;
 }
 
@@ -452,7 +456,7 @@ function admin_(b) {
     withLock_(function () {
       Object.keys(b.values || {}).forEach(function (k) {
         if (SETTINGS_EDITABLE.indexOf(k) < 0) return;
-        var v = clean_(b.values[k], 1000);
+        var v = clean_(b.values[k], 2000);
         if (k === 'adminPassword' && v.length < 4) return;
         if (k === 'currentCourse' && !findCourse_(v)) throw new Error('없는 연수 ID입니다: ' + v);
         setSetting_(k, v);
