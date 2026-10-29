@@ -392,6 +392,14 @@ body.is-admin footer{padding-bottom:110px}
   #adm-panel select{width:100%;height:38px}
 }
 .tel{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.ph-line{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.ph-line>[data-k]{white-space:nowrap}
+.contact .ph-line>span:first-child{width:auto;color:inherit;font-weight:inherit}
+.ph-acts{display:inline-flex;flex-wrap:wrap;gap:6px}
+.ph-acts:empty{display:none}
+.ph-acts a{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:999px;background:var(--ux-accent-soft);color:var(--primary);font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap}
+.ph-acts a:hover{filter:brightness(.96)}
+.ph-acts a:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
 .tel a{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--ux-accent-soft);text-decoration:none;font-size:14px}
 .tel a:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
 </style>
@@ -779,7 +787,7 @@ body.is-admin footer{padding-bottom:110px}
       <p class="sec-lead" data-k="settings.deadlineText"></p>
       <div class="contact">
         <div><span>문의</span><span data-k="settings.contactPlace"></span></div>
-        <div><span>전화</span><span data-k="settings.contactPhone"></span></div>
+        <div><span>전화</span><span class="ph-line"><span data-k="settings.contactPhone"></span><span class="ph-acts" id="contact-acts"></span></span></div>
       </div>
       <p class="sec-lead note" id="demo-note">시트와 아직 연결되지 않은 미리보기라 신청이 실제로 접수되지는 않습니다.</p>
     </div>
@@ -1058,6 +1066,7 @@ var SITEKIT = (function () {
     document.getElementById('ov-link').hidden = prep || !(S.course && (S.course.overview || document.body.classList.contains('is-admin')));
     document.getElementById('prep-past').hidden = !(S.archiveCount > 0);
     document.querySelectorAll('[data-k]').forEach(function (el) { el.innerHTML = linkify(esc(get(S, el.getAttribute('data-k')) || '')); });
+    contactActs(S.settings && S.settings.contactPhone);
     document.querySelectorAll('[data-md]').forEach(function (el) { el.innerHTML = md(get(S, el.getAttribute('data-md'))); });
     document.title = [S.course && S.course.name, S.settings.siteTitle].filter(Boolean).join(' · ') || document.title;
     if (prep) return;
@@ -1076,7 +1085,21 @@ var SITEKIT = (function () {
     document.getElementById('demo-note').hidden = !!API_URL;
   }
 
-  // #039 탭: 첫 탭은 주차 전체, 나머지는 세부과정의 주제별
+  // 문의 전화: 전화 걸기는 어디서나, 문자 보내기는 휴대폰(과 문자 앱이 있는 Mac)에서만
+  var DEV = (function (ua) {
+    var mobile = /iPhone|iPod|Android/i.test(ua) || (/iPad|Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+    return { mobile: mobile, mac: !mobile && /Macintosh/.test(ua), ios: /iPhone|iPad|iPod|Macintosh/.test(ua) };
+  })(navigator.userAgent);
+  function smsHref(digits, body) { return 'sms:' + digits + (DEV.ios ? '&body=' : '?body=') + encodeURIComponent(body); }
+  function contactActs(phone) {
+    var box = document.getElementById('contact-acts'); if (!box) return;
+    var d = String(phone || '').replace(/\D/g, '');
+    if (d.length < 8) { box.innerHTML = ''; return; }
+    box.innerHTML = '<a href="tel:' + d + '">📞 전화 걸기</a>' +
+      (DEV.mobile || DEV.mac ? '<a href="' + smsHref(d, '연수 관련 문의합니다.') + '">💬 문자 보내기</a>' : '');
+  }
+
+  // #039 탭: 세부과정의 주제별
   function topics(S) {
     // 회차 목록은 왼쪽에 이미 있으니, 오른쪽 탭은 세부과정의 주제별로만 만듭니다
     var labels = [], data = [];
@@ -1565,7 +1588,7 @@ var SITEKIT = (function () {
     if (d) {
       var body = encodeURIComponent('[' + ((SITE && SITE.course && SITE.course.name) || '연수') + '] ' + a.name + ' 선생님, ');
       var smsHref = 'sms:' + d + (IOSLIKE ? '&body=' : '?body=') + body;
-      if (MOBILE) wrap.appendChild(link('tel:' + d, '📞', a.name + '에게 전화 걸기'));
+      wrap.appendChild(link('tel:' + d, '📞', a.name + '에게 전화 걸기'));
       if (MOBILE || MAC) wrap.appendChild(link(smsHref, '💬', a.name + '에게 문자 보내기'));
     }
     td.appendChild(wrap); return td;
