@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="생성형 AI를 우리 반 교육과정에 연결하는 4주간의 실습 연수 안내와 신청">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<title>AI 수업 설계 연수</title>
+<title>JP Park 연수실</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap">
@@ -1215,7 +1215,7 @@ var SITEKIT = (function () {
     };
   })();
 
-  SITEKIT.render(DEFAULT);
+  if (!API_URL) SITEKIT.render(DEFAULT);
   if (!API_URL) { document.body.classList.remove('is-loading'); start(DEFAULT); }
   else {
     loader.begin();
