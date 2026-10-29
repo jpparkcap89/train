@@ -295,6 +295,19 @@ dialog.adm::backdrop{background:rgba(13,20,36,.45);backdrop-filter:blur(4px)}
 .adm .go:disabled{opacity:.6;cursor:default}
 .adm .err{min-height:20px;margin:8px 0 0;font-size:13px;font-weight:650;color:var(--ux-danger)}
 .adm .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.adm .seg{display:inline-flex;gap:4px;margin-top:14px;padding:4px;border-radius:999px;background:var(--ux-surface-2);box-shadow:inset 0 0 0 1px var(--ux-line)}
+.adm .seg button{border:0;background:none;padding:7px 16px;border-radius:999px;font:inherit;font-size:14px;font-weight:650;color:var(--muted);cursor:pointer}
+.adm .seg button[aria-pressed="true"]{background:var(--ux-surface);color:var(--primary);box-shadow:0 1px 4px rgba(30,40,80,.12)}
+.adm table.att{min-width:0}
+.adm table.att th.wk{text-align:center;white-space:nowrap}
+.adm table.att th.wk small{display:block;font-weight:500;color:var(--muted);font-size:11.5px}
+.adm table.att td.ck{text-align:center;padding:4px}
+.adm .ck button{min-width:64px;padding:6px 8px;border:0;border-radius:10px;background:var(--ux-surface-2);color:var(--muted);font:inherit;font-size:13px;cursor:pointer}
+.adm .ck button.on{background:#dcf5e7;color:#13734a;font-weight:650}
+.adm .ck button:disabled{opacity:.5}
+.adm .ck button:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.adm td.sum{text-align:center;font-weight:700;white-space:nowrap}
+.adm .walkin{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:999px;background:#fff3d6;color:#8a5a00;font-size:11.5px;font-weight:650}
 .adm .chip{padding:8px 12px;border-radius:12px;background:var(--ux-surface-2);font-size:13px;font-weight:650}
 .adm .chip b{font-size:16px;margin-left:4px;font-variant-numeric:tabular-nums}
 .adm .tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:16px}
@@ -421,7 +434,7 @@ body.is-admin footer{padding-bottom:110px}
   <header class="top">
     <a class="brand" href="#top" id="top"><span class="mark" data-k="settings.brandInitials">JP</span><span data-k="settings.brandName">JP Park 연수실</span></a>
     <nav class="links" aria-label="페이지 메뉴">
-      <a href="#overview" id="ov-link" hidden>연수 개요</a><a href="#course" class="when-course">과정</a><a href="#voices" class="when-course" id="voices-link">후기·질문</a><a href="#apply" class="when-course">신청</a><a href="#past" id="past-link" hidden>지난 연수</a>
+      <a href="#overview" id="ov-link" hidden>연수 개요</a><a href="#course" class="when-course">과정</a><a href="#voices" class="when-course" id="voices-link">후기·질문</a><a href="#apply" class="when-course" id="apply-link">신청</a><a href="#past" id="past-link" hidden>지난 연수</a>
     </nav>
   </header>
 
@@ -782,8 +795,8 @@ body.is-admin footer{padding-bottom:110px}
 
   <section class="when-course block split" id="apply">
     <div data-edit="apply" class="glass apply-info">
-      <div class="label">APPLY</div>
-      <h2 class="sec">📬 연수 신청</h2>
+      <div class="label" id="apply-label">APPLY</div>
+      <h2 class="sec" id="apply-title">📬 연수 신청</h2>
       <p class="sec-lead" data-k="settings.deadlineText"></p>
       <div class="contact">
         <div><span>문의</span><span data-k="settings.contactPlace"></span></div>
@@ -850,7 +863,7 @@ body.is-admin footer{padding-bottom:110px}
   var root = document.currentScript.previousElementSibling;
   window.LXQ.push(function (SITE) {
   (function () { var ag0 = root.querySelector('.u244-ag'); var pvText = SITE.settings.privacyNotice || (DEFAULT.settings && DEFAULT.settings.privacyNotice); if (pvText && !root.querySelector('.pv')) { var d = document.createElement('details'); d.className = 'pv'; d.innerHTML = '<summary>개인정보 수집·이용 안내 보기</summary><div></div>'; d.querySelector('div').textContent = pvText; ag0.insertAdjacentElement('afterend', d); } })();
-  if (!SITE.settings.applyOpen) { var g0 = root.querySelector('.u244-go'); g0.disabled = true; g0.textContent = '지금은 신청을 받지 않아요'; }
+  SITEKIT.formLabels(SITE);
   var sc = root.querySelector('.u244-sc'), fs = root.querySelector('.u244-fs'), ul = root.querySelector('.u244-sb ul'), ct = root.querySelector('.u244-ct'), ag = root.querySelector('.u244-ag'), go = root.querySelector('.u244-go');
   var rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var uid = 'u244' + Math.random().toString(36).slice(2, 7);
@@ -927,9 +940,10 @@ body.is-admin footer{padding-bottom:110px}
   </div>
   <div class="adm-card" id="adm-panel" hidden>
     <div class="adm-top">
-      <div class="sp"><h2>📋 연수 신청 관리</h2><p class="sub">상태·이수·메모를 바꾸면 시트에 바로 저장됩니다. 사이트 문구는 각 영역의 ✏️ 버튼이나 시트에서 고칠 수 있어요.</p></div>
+      <div class="sp"><h2>📋 신청·출석 관리</h2><p class="sub">상태·이수·메모를 바꾸면 시트에 바로 저장됩니다. 출석부 칸을 누르면 출석을 넣거나 뺄 수 있어요.</p></div>
       <button type="button" class="x" data-close aria-label="닫기">×</button>
     </div>
+    <div class="seg" role="group" aria-label="보기" id="adm-view"><button type="button" data-v="apps" aria-pressed="true">신청자 명단</button><button type="button" data-v="attend" aria-pressed="false">✅ 출석부</button></div>
     <div class="chips" id="adm-chips"></div>
     <div class="tools">
       <select id="adm-course" aria-label="연수 고르기"></select>
@@ -938,7 +952,10 @@ body.is-admin footer{padding-bottom:110px}
       <a class="ghost" id="adm-sheet" href="#" target="_blank" rel="noopener">시트 열기 ↗</a>
       <button type="button" class="ghost" id="adm-logout">로그아웃</button>
     </div>
-    <div class="tbl"><table>
+    <div class="tbl" id="att-wrap" hidden><table class="att">
+      <thead id="att-head"></thead><tbody id="att-rows"></tbody>
+    </table></div>
+    <div class="tbl" id="apps-wrap"><table>
       <thead><tr><th>신청일시</th><th>연수</th><th>이름</th><th>학교 메일</th><th>소속 학교</th><th>전화번호</th><th>상태</th><th>이수</th><th>메모</th></tr></thead>
       <tbody id="adm-rows"></tbody>
     </table></div>
@@ -950,7 +967,7 @@ body.is-admin footer{padding-bottom:110px}
 <div class="abar" role="toolbar" aria-label="관리자 메뉴">
   <span id="ab-label">✏️ 관리자 모드</span>
   <button type="button" id="ab-courses">📚 연수 관리</button>
-  <button type="button" id="ab-apps">📋 신청 관리</button>
+  <button type="button" id="ab-apps">📋 신청·출석</button>
   <button type="button" id="ab-site">⚙️ 사이트 설정</button>
   <button type="button" id="ab-out">로그아웃</button>
 </div>
@@ -1031,7 +1048,7 @@ var SITEKIT = (function () {
   function seats(S) {
     var cap = S.settings.capacity, st = S.stats || {};
     var box = document.getElementById('seats');
-    if (!cap || st.applied == null) { box.hidden = true; return; }
+    if (!cap || st.applied == null || S.settings.formMode === '출석') { box.hidden = true; return; }
     box.hidden = false;
     var used = Math.min(cap, st.applied), left = Math.max(0, cap - st.applied);
     var txt = '정원 ' + cap + '명 중 ' + st.applied + '명 신청 · ' + (left ? '남은 자리 ' + left + '석' : '정원이 찼어요 (대기 접수)');
@@ -1080,8 +1097,13 @@ var SITEKIT = (function () {
       return '<li><span class="w">' + esc(w.week) + '</span><div><b>' + esc(w.title) + '</b><small>' + esc([w.date, w.desc].filter(Boolean).join(' · ')) + '</small></div></li>';
     }).join('');
     seats(S);
-    var cta = document.getElementById('cta');
-    cta.textContent = S.settings.applyOpen ? '연수 신청하기 →' : (S.settings.applyLabel || '신청이 마감됐어요');
+    var cta = document.getElementById('cta'), att = S.settings.formMode === '출석';
+    document.body.classList.toggle('mode-attend', att);
+    cta.textContent = S.settings.applyOpen ? (att ? '출석하기 →' : '연수 신청하기 →') : (S.settings.applyLabel || '신청이 마감됐어요');
+    document.getElementById('apply-link').textContent = att ? '출석' : '신청';
+    document.getElementById('apply-label').textContent = att ? 'ATTENDANCE' : 'APPLY';
+    document.getElementById('apply-title').textContent = att ? '✅ 출석 체크' : '📬 연수 신청';
+    formLabels(S);
     document.getElementById('demo-note').hidden = !!API_URL;
   }
 
@@ -1134,6 +1156,24 @@ var SITEKIT = (function () {
     }).join('');
   }
 
+  // 폼 용도(신청 / 출석)에 맞게 폼 문구를 바꿉니다
+  function formLabels(S) {
+    var f = document.querySelector('.u244-sc'); if (!f) return;
+    var att = S.settings.formMode === '출석', open = !!S.settings.applyOpen, td = S.content && S.content.today;
+    f.setAttribute('aria-label', att ? '출석 폼' : '연수 신청 폼');
+    f.querySelector('h3').textContent = att ? '출석하기' : '연수 신청';
+    f.querySelector('h3 + p').textContent = att
+      ? (td ? '오늘은 ' + td.week + (td.title ? ' · ' + td.title : '') + ' 출석을 받아요' : '이름과 학교 메일로 출석을 확인합니다')
+      : '입력한 내용은 연수 안내에만 씁니다';
+    var ag = f.querySelector('.u244-ag'), tn = ag && ag.lastChild;
+    if (tn && tn.nodeType === 3) tn.textContent = att ? '출석 확인을 위한 개인정보 수집에 동의해요' : '연수 안내를 위한 개인정보 수집에 동의해요';
+    var go = f.querySelector('.u244-go');
+    if (go && !go.classList.contains('is-done')) {
+      go.disabled = !open;
+      go.textContent = open ? (att ? '출석하기' : '신청하기') : (att ? (S.settings.applyLabel || '지금은 출석을 받지 않아요') : '지금은 신청을 받지 않아요');
+    }
+  }
+
   // #244 신청: 시트로 보내고 결과를 버튼에 보여 줍니다
   function submit(vals, go, S) {
     if (!API_URL) { go.classList.add('is-done'); go.textContent = '미리보기라 접수되지 않았어요'; return; }
@@ -1142,10 +1182,11 @@ var SITEKIT = (function () {
       .then(function (r) {
         if (!r.ok) throw new Error(r.error || '신청을 저장하지 못했어요');
         go.classList.add('is-done');
-        go.textContent = r.status === '대기' ? '대기자로 접수됐어요' : '신청 완료! 확정 안내를 보내 드릴게요';
+        go.textContent = r.mode === '출석' ? '출석 완료! ' + [r.week, r.time].filter(Boolean).join(' · ')
+          : r.status === '대기' ? '대기자로 접수됐어요' : '신청 완료! 확정 안내를 보내 드릴게요';
         if (r.stats) { S.stats = r.stats; seats(S); }
       })
-      .catch(function (e) { go.disabled = false; go.textContent = (e.message || '연결에 실패했어요') + ' · 다시 신청하기'; });
+      .catch(function (e) { go.disabled = false; go.textContent = (e.message || '연결에 실패했어요') + (S.settings.formMode === '출석' ? ' · 다시 출석하기' : ' · 다시 신청하기'); });
   }
 
   // 연수 개요 문서: # 제목 / @ 기관 / ## 단원 / □ ○ - 목록 / | 표 | / > 단계 :: 설명 :: 날짜
@@ -1205,7 +1246,7 @@ var SITEKIT = (function () {
     return out;
   }
 
-  return { esc: esc, md: md, phone: phone, render: render, overview: overview, tabs039: tabs039, reviews: reviews, faq044: faq044, submit: submit, post: post };
+  return { esc: esc, md: md, phone: phone, formLabels: formLabels, render: render, overview: overview, tabs039: tabs039, reviews: reviews, faq044: faq044, submit: submit, post: post };
 })();
 </script>
 <script>
@@ -1389,7 +1430,7 @@ var SITEKIT = (function () {
     voices: { title: '후기·질문 섹션', fields: [F('course.voicesLead', '섹션 설명', 'area')] },
     reviews: { title: '이 연수의 후기', list: 'reviews', cols: [['show', '노출', 'select', ['예', '아니오']], ['quote', '후기 (*강조할 말*)', 'area'], ['name', '이름'], ['role', '소속']], hint: '이 연수에 후기가 없으면 다른 연수의 노출 후기가 대신 보여요. 연수가 끝난 뒤 받은 후기를 여기에 넣으면 지난 연수 보기에도 나옵니다.' },
     faq: { title: '자주 묻는 질문', list: 'faq', cols: [SCOPE, ['q', '질문', 'wide'], ['a', '답변', 'area'], ['linkText', '링크 문구'], ['target', '이동 위치', 'select', ['course', 'apply']]] },
-    apply: { title: '연수 신청', fields: [F('course.status', '진행 상태', 'select', '모집중일 때만 신청을 받아요. 종료로 바꾸면 지난 연수에 보관됩니다', ['준비', '모집중', '마감', '종료']), F('course.openAt', '신청 시작일', 'date', '비워 두면 바로 시작'), F('course.closeAt', '신청 마감일', 'date', '이 날까지 신청을 받아요. 비워 두면 상태로만 결정'), F('course.capacity', '정원', 'number', '정원이 차면 새 신청은 대기로 접수돼요'), F('course.applyText', '안내 문구', 'area'), F('course.completion', '이수 기준 (관리용)'), F('settings.privacyNotice', '개인정보 수집·이용 안내 (모든 연수 공통)', 'area', '신청 폼의 동의 칸 아래에 펼쳐 볼 수 있게 보여요. 줄바꿈이 그대로 표시됩니다')] },
+    apply: { title: '연수 신청 / 출석', fields: [F('course.formMode', '폼 용도', 'select', '출석으로 바꾸면 신청 폼이 출석부가 되고, 버튼도 "출석하기"로 바뀌어요. 출석은 시트의 출석 탭에 쌓입니다', ['신청', '출석']), F('course.attendText', '출석 안내 문구 (출석 모드일 때)', 'area', '비워 두면 "연수 당일, 이름과 학교 메일을 입력하면 출석이 확인됩니다…"'), F('course.status', '진행 상태', 'select', '모집중일 때만 신청을 받아요. 종료로 바꾸면 지난 연수에 보관됩니다', ['준비', '모집중', '마감', '종료']), F('course.openAt', '신청 시작일', 'date', '비워 두면 바로 시작'), F('course.closeAt', '신청 마감일', 'date', '이 날까지 신청을 받아요. 비워 두면 상태로만 결정'), F('course.capacity', '정원', 'number', '정원이 차면 새 신청은 대기로 접수돼요'), F('course.applyText', '신청 안내 문구 (신청 모드일 때)', 'area'), F('course.completion', '이수 기준 (관리용)'), F('settings.privacyNotice', '개인정보 수집·이용 안내 (모든 연수 공통)', 'area', '신청 폼의 동의 칸 아래에 펼쳐 볼 수 있게 보여요. 줄바꿈이 그대로 표시됩니다')] },
     site: { title: '사이트 설정', fields: [F('settings.siteTitle', '사이트 이름 (브라우저 탭)'), F('settings.brandName', '로고 옆 이름'), F('settings.brandInitials', '로고 글자 (2자 권장)'), F('settings.footerText', '맨 아래 문구'), F('settings.contactPlace', '문의처'), F('settings.contactPhone', '문의 전화'), F('settings.notifyEmail', '신청 알림 메일', 'email', '신청이 들어오면 이 주소로 알림을 보냅니다. 비워 두면 보내지 않아요'), F('settings.adminPassword', '새 관리자 비밀번호', 'password', '바꿀 때만 입력하세요 (4자 이상). 비워 두면 그대로입니다')] }
   };
   var adminSettings = {};
@@ -1610,12 +1651,87 @@ var SITEKIT = (function () {
       var keep = sel.value || (SITE && SITE.course && SITE.course.id) || '';
       sel.innerHTML = '<option value="">모든 연수</option>' + courses.map(function (c) { return '<option value="' + esc(c.id) + '">' + esc(c.name) + ' (' + esc(c.status) + ')</option>'; }).join('');
       sel.value = keep; if (sel.value !== keep) sel.value = '';
-      loadApps();
+      setView(SITE && SITE.settings && SITE.settings.formMode === '출석' && sel.value ? 'attend' : view);
     }).catch(function (e) { err2.textContent = e.message; });
   });
-  sel.addEventListener('change', loadApps);
-  $('adm-refresh').addEventListener('click', loadApps);
-  q.addEventListener('input', draw);
+  sel.addEventListener('change', function () { setView(view); });
+  $('adm-refresh').addEventListener('click', function () { setView(view); });
+  q.addEventListener('input', function () { if (view === 'attend') drawAtt(); else draw(); });
+
+  /* ---------- ✅ 출석부 ---------- */
+  var view = 'apps', book = null;
+  function setView(v) {
+    view = v;
+    Array.prototype.forEach.call(document.querySelectorAll('#adm-view button'), function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === v)); });
+    $('apps-wrap').hidden = v !== 'apps'; $('att-wrap').hidden = v !== 'attend';
+    if (v === 'apps') loadApps(); else loadAtt();
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('#adm-view button'), function (b) {
+    b.addEventListener('click', function () { setView(b.getAttribute('data-v')); });
+  });
+  function loadAtt() {
+    chips.innerHTML = ''; $('att-head').innerHTML = ''; $('att-rows').innerHTML = '';
+    if (!sel.value) { err2.textContent = ''; $('att-rows').innerHTML = '<tr><td class="empty">출석부를 볼 연수를 위에서 골라 주세요</td></tr>'; return; }
+    err2.textContent = '불러오는 중…';
+    adminCall({ op: 'attend', course: sel.value }).then(function (r) { err2.textContent = ''; book = r; drawAtt(); })
+      .catch(function (e) { err2.textContent = e.message; });
+  }
+  function drawAtt() {
+    if (!book) return;
+    var ses = book.sessions || [], recs = book.records || [];
+    var weeks = ses.map(function (s) { return s.week; });
+    var people = [], by = {};
+    function person(o) {
+      var k = String(o.email || '').toLowerCase(); if (!k) return null;
+      if (!by[k]) { by[k] = { name: o.name, email: k, school: o.school, phone: o.phone, walkin: true, hits: {} }; people.push(by[k]); }
+      return by[k];
+    }
+    (book.roster || []).forEach(function (a) { var p = person(a); if (p) p.walkin = false; });
+    recs.forEach(function (r) { var p = person(r); if (!p) return; var w = weeks.indexOf(r.week) >= 0 ? r.week : '기타'; (p.hits[w] = p.hits[w] || []).push(r); if (!p.phone && r.phone) p.phone = r.phone; });
+    var hasOther = people.some(function (p) { return p.hits['기타']; });
+    var cols = weeks.concat(hasOther ? ['기타'] : []);
+    var today = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+    $('att-head').innerHTML = '<tr><th>이름</th><th>소속 학교</th><th>전화번호</th>' + cols.map(function (w) {
+      var s = ses.filter(function (x) { return x.week === w; })[0];
+      return '<th class="wk">' + esc(w) + (s && s.date ? '<small>' + esc(s.date.slice(5).replace('-', '. ')) + (s.date === today ? ' · 오늘' : '') + '</small>' : '') + '</th>';
+    }).join('') + '<th class="wk">출석</th></tr>';
+    var counts = cols.map(function (w) { return people.filter(function (p) { return p.hits[w]; }).length; });
+    chips.innerHTML = '<span class="chip">명단<b>' + people.length + '</b></span>' + cols.map(function (w, i) { return '<span class="chip">' + esc(w) + '<b>' + counts[i] + '</b></span>'; }).join('') +
+      (people.some(function (p) { return p.walkin; }) ? '<span class="chip">미신청 출석<b>' + people.filter(function (p) { return p.walkin; }).length + '</b></span>' : '') +
+      (book.completion ? '<span class="chip">이수 기준 · ' + esc(book.completion) + '</span>' : '');
+    var term = q.value.trim().toLowerCase();
+    var list = people.filter(function (p) { return !term || (p.name + ' ' + p.school + ' ' + p.email + ' ' + (p.phone || '')).toLowerCase().indexOf(term) >= 0; });
+    var body = $('att-rows'); body.textContent = '';
+    if (!list.length) { body.innerHTML = '<tr><td colspan="' + (cols.length + 4) + '" class="empty">' + (people.length ? '검색 결과가 없어요' : '아직 신청자도 출석 기록도 없어요') + '</td></tr>'; return; }
+    list.forEach(function (p) {
+      var tr = document.createElement('tr');
+      var tdN = document.createElement('td'); tdN.textContent = p.name;
+      if (p.walkin) { var w = document.createElement('span'); w.className = 'walkin'; w.textContent = '미신청'; w.title = '신청 명단에 없이 출석했어요'; tdN.appendChild(w); }
+      tdN.title = p.email; tr.appendChild(tdN);
+      var tdS = document.createElement('td'); tdS.textContent = p.school || ''; tr.appendChild(tdS);
+      tr.appendChild(telCell(p));
+      var n = 0;
+      cols.forEach(function (wk) {
+        var td = document.createElement('td'); td.className = 'ck';
+        var hit = p.hits[wk], b = document.createElement('button'); b.type = 'button';
+        if (hit) { n++; b.className = 'on'; b.textContent = '✅ ' + (wk === '기타' ? hit.length + '회' : String(hit[0].at || '').slice(11) || '출석'); b.title = hit.map(function (h) { return h.at + (h.how === '관리자' ? ' (관리자 기록)' : ''); }).join('\n'); }
+        else { b.textContent = '—'; b.title = '눌러서 출석 처리'; }
+        b.setAttribute('aria-label', p.name + ' ' + wk + (hit ? ' 출석 취소' : ' 출석 처리'));
+        if (wk === '기타') b.disabled = true;
+        else b.addEventListener('click', function () {
+          if (hit && !confirm(p.name + ' 선생님의 ' + wk + ' 출석을 지울까요?')) return;
+          b.disabled = true; err2.textContent = '저장하는 중…';
+          adminCall({ op: 'setAttend', course: sel.value, email: p.email, week: wk, on: !hit }).then(function (r) { err2.textContent = '저장했어요'; book = r; drawAtt(); })
+            .catch(function (e) { err2.textContent = e.message; b.disabled = false; });
+        });
+        td.appendChild(b); tr.appendChild(td);
+      });
+      var tdT = document.createElement('td'); tdT.className = 'sum'; tdT.textContent = n + ' / ' + weeks.length; tr.appendChild(tdT);
+      var heads = ['이름', '소속 학교', '전화번호'].concat(cols, ['출석']);
+      Array.prototype.forEach.call(tr.children, function (td, i) { td.setAttribute('data-l', heads[i]); });
+      body.appendChild(tr);
+    });
+  }
 
   function update(a, change, ctl) {
     if (ctl) ctl.disabled = true; err2.textContent = '저장하는 중…';

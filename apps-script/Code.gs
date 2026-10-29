@@ -11,6 +11,7 @@
  *   후기      연수별 후기 (노출=예인 것만 사이트에 표시)
  *   신청      신청 1건 = 1줄 (연수 ID로 구분, 상태·이수 기록)
  *   참가자    학교 메일 기준 누적 집계 (자동으로 다시 계산되니 직접 고치지 마세요)
+ *   출석      출석 1건 = 1줄 (폼 용도를 '출석'으로 두면 신청 폼이 출석부로 바뀝니다. 처음 출석할 때 탭이 생겨요)
  *
  * 처음 한 번: 이 코드를 [확장 프로그램 > Apps Script]에 붙여넣고 setup을 실행한 뒤 [배포 > 새 배포 > 웹 앱].
  * 열 제목(1행)은 바꾸지 마세요. 열 순서는 바꿔도 됩니다.
@@ -21,20 +22,23 @@ var SHEET_ID = '1WTw_gJ-Aqgn6a7sgcs99Dbf98ZfnxUI0TViGzMnKfEk';
 function SS_() { return SHEET_ID ? SpreadsheetApp.openById(SHEET_ID) : SpreadsheetApp.getActiveSpreadsheet(); }
 
 var T = {
-  courses: { name: '연수', cols: [['id', '연수 ID'], ['status', '상태'], ['name', '연수명'], ['eyebrow', '라벨'], ['title1', '제목 첫 줄'], ['title2', '제목 둘째 줄'], ['lead', '소개'], ['period', '기간'], ['time', '시간'], ['credit', '이수'], ['place', '장소'], ['capacity', '정원'], ['openAt', '신청 시작일'], ['closeAt', '신청 마감일'], ['applyText', '신청 안내'], ['courseLead', '과정 설명'], ['voicesLead', '후기 설명'], ['completion', '이수 기준'], ['createdAt', '만든 날'], ['overview', '연수 개요'], ['roomShow', '연수실 버튼 표시'], ['roomLabel', '연수실 버튼 문구'], ['roomUrl', '연수실 주소']],
-             widths: [110, 80, 220, 220, 220, 200, 360, 200, 170, 150, 200, 60, 100, 100, 320, 280, 280, 220, 100, 420, 110, 160, 300] },
+  courses: { name: '연수', cols: [['id', '연수 ID'], ['status', '상태'], ['name', '연수명'], ['eyebrow', '라벨'], ['title1', '제목 첫 줄'], ['title2', '제목 둘째 줄'], ['lead', '소개'], ['period', '기간'], ['time', '시간'], ['credit', '이수'], ['place', '장소'], ['capacity', '정원'], ['openAt', '신청 시작일'], ['closeAt', '신청 마감일'], ['applyText', '신청 안내'], ['courseLead', '과정 설명'], ['voicesLead', '후기 설명'], ['completion', '이수 기준'], ['createdAt', '만든 날'], ['overview', '연수 개요'], ['roomShow', '연수실 버튼 표시'], ['roomLabel', '연수실 버튼 문구'], ['roomUrl', '연수실 주소'], ['formMode', '폼 용도'], ['attendText', '출석 안내']],
+             widths: [110, 80, 220, 220, 220, 200, 360, 200, 170, 150, 200, 60, 100, 100, 320, 280, 280, 220, 100, 420, 110, 160, 300, 80, 320] },
   sessions: { name: '회차', cols: [['course', '연수 ID'], ['week', '회차'], ['date', '날짜'], ['title', '제목'], ['desc', '설명'], ['time', '시간']], widths: [110, 70, 100, 260, 300, 80] },
   topics: { name: '세부과정', cols: [['course', '연수 ID'], ['topic', '주제 (탭 이름)'], ['title', '제목'], ['meta', '부가 정보'], ['time', '시간']], widths: [110, 120, 240, 160, 80] },
   features: { name: '특징', cols: [['course', '연수 ID (비우면 공통)'], ['icon', '아이콘'], ['title', '제목'], ['text', '설명 (**굵게** 가능)']], widths: [150, 70, 180, 440] },
   faq: { name: 'FAQ', cols: [['course', '연수 ID (비우면 공통)'], ['q', '질문'], ['a', '답변'], ['linkText', '링크 문구'], ['target', '이동 위치 (course / apply)']], widths: [150, 280, 420, 140, 160] },
   reviews: { name: '후기', cols: [['course', '연수 ID'], ['show', '노출'], ['quote', '후기 (*강조할 말*)'], ['name', '이름'], ['role', '소속']], widths: [110, 60, 420, 140, 160] },
   apps: { name: '신청', cols: [['appId', '신청 ID'], ['course', '연수 ID'], ['at', '신청일시'], ['name', '이름'], ['email', '학교 메일'], ['school', '소속 학교'], ['phone', '전화번호'], ['status', '상태'], ['done', '이수'], ['memo', '메모']], widths: [130, 110, 140, 90, 220, 150, 130, 70, 70, 240] },
-  people: { name: '참가자', cols: [['email', '학교 메일'], ['name', '이름'], ['school', '소속 학교'], ['phone', '전화번호'], ['applied', '신청 횟수'], ['confirmed', '확정 횟수'], ['completed', '이수 횟수'], ['lastCourse', '최근 연수'], ['lastAt', '최근 신청일']], widths: [220, 90, 150, 130, 80, 80, 80, 110, 140] }
+  people: { name: '참가자', cols: [['email', '학교 메일'], ['name', '이름'], ['school', '소속 학교'], ['phone', '전화번호'], ['applied', '신청 횟수'], ['confirmed', '확정 횟수'], ['completed', '이수 횟수'], ['lastCourse', '최근 연수'], ['lastAt', '최근 신청일']], widths: [220, 90, 150, 130, 80, 80, 80, 110, 140] },
+  attend: { name: '출석', cols: [['course', '연수 ID'], ['week', '회차'], ['date', '출석 날짜'], ['at', '출석 시각'], ['name', '이름'], ['email', '학교 메일'], ['school', '소속 학교'], ['phone', '전화번호'], ['applied', '신청자'], ['how', '기록 방법']], widths: [110, 70, 100, 140, 90, 220, 150, 130, 60, 80] }
 };
 var SETTINGS_TAB = 'Settings';
 var COURSE_STATUS = ['준비', '모집중', '마감', '종료'];
 var APP_STATUS = ['접수', '확정', '대기', '취소'];
 var DONE = ['', '이수', '미이수'];
+var FORM_MODES = ['신청', '출석'];
+var DEFAULT_ATTEND_TEXT = '연수 당일, 이름과 학교 메일을 입력하면 출석이 확인됩니다. 하루에 한 번만 기록돼요.';
 var LISTS = ['sessions', 'topics', 'features', 'faq', 'reviews'];
 var COMMON_OK = ['features', 'faq'];             // 연수 ID를 비우면 모든 연수 공통
 var TZ = 'Asia/Seoul';
@@ -166,6 +170,7 @@ function cell_(v) {
 
 function sheetOf_(key) {
   var sh = SS_().getSheetByName(T[key].name);
+  if (!sh && key === 'attend') { makeTable_('attend', []); sh = SS_().getSheetByName(T[key].name); }
   if (!sh) throw new Error('"' + T[key].name + '" 탭이 없습니다. setup을 먼저 실행하세요.');
   return sh;
 }
@@ -291,6 +296,20 @@ function applyState_(c) {
   return { open: true, label: '' };
 }
 
+// 출석부 모드: 준비·종료가 아니면 출석을 받습니다
+function attendState_(c) {
+  if (c.status === '준비') return { open: false, label: '아직 출석을 받지 않아요' };
+  if (c.status === '종료') return { open: false, label: '종료된 연수예요' };
+  return { open: true, label: '' };
+}
+function mode_(c) { return c && c.formMode === '출석' ? '출석' : '신청'; }
+// 오늘 날짜와 같은 회차 (없으면 null)
+function todaySession_(courseId) {
+  var t = today_(), hit = null;
+  read_('sessions').rows.forEach(function (r) { if (!hit && r.course === courseId && r.date === t) hit = { week: r.week, date: r.date, title: r.title }; });
+  return hit;
+}
+
 function countActive_(courseId) {
   return read_('apps').rows.filter(function (a) { return a.course === courseId && a.status !== '취소'; }).length;
 }
@@ -314,16 +333,18 @@ function courseData_(id, admin) {
   }
   var mine = function (r) { return r.course === c.id; };
   var mineOrCommon = function (r) { return r.course === c.id || r.course === ''; };
-  var cap = parseInt(c.capacity, 10) || 0, applied = countActive_(c.id), st = applyState_(c);
+  var cap = parseInt(c.capacity, 10) || 0, applied = countActive_(c.id), mode = mode_(c);
+  var st = mode === '출석' ? attendState_(c) : applyState_(c);
   var reviews = read_('reviews').rows.filter(function (r) { return r.show !== '아니오'; });
   var own = reviews.filter(mine);
   return {
     ok: true,
     course: { id: c.id, name: c.name, overview: c.overview, status: c.status, openAt: c.openAt, closeAt: c.closeAt, completion: c.completion, isCurrent: c.id === s.currentCourse },
-    settings: (function () { var o = siteSettings_(s); o.applyOpen = st.open; o.applyLabel = st.label; o.capacity = cap; o.deadlineText = c.applyText; return o; })(),
+    settings: (function () { var o = siteSettings_(s); o.applyOpen = st.open; o.applyLabel = st.label; o.formMode = mode; o.capacity = cap; o.deadlineText = mode === '출석' ? (c.attendText || DEFAULT_ATTEND_TEXT) : c.applyText; return o; })(),
     archiveCount: archive_().length,
     content: { eyebrow: c.eyebrow, title1: c.title1, title2: c.title2, lead: c.lead, factPeriod: c.period, factTime: c.time,
                factCredit: c.credit, factPlace: c.place, courseLead: c.courseLead, voicesLead: c.voicesLead,
+               today: mode === '출석' ? todaySession_(c.id) : null,
                room: c.roomShow === '예' && /^https?:\/\//.test(c.roomUrl) ? { label: c.roomLabel || '연수실 입장하기', url: c.roomUrl } : null },
     features: read_('features').rows.filter(mineOrCommon).map(strip_),
     weeks: read_('sessions').rows.filter(mine).map(strip_),
@@ -378,6 +399,7 @@ function apply_(b) {
   var s = settings_();
   var c = findCourse_(b.course || s.currentCourse);
   if (!c) return { ok: false, error: '연수를 찾을 수 없습니다.' };
+  if (mode_(c) === '출석') return attend_(b, c);
   var st = applyState_(c);
   if (!st.open) return { ok: false, error: st.label };
   var name = clean_(b.name, 40), email = clean_(b.email, 120).toLowerCase(), school = clean_(b.school, 80), phone = phone_(b.phone);
@@ -409,6 +431,39 @@ function apply_(b) {
   return res;
 }
 
+/* ============ 출석 ============ */
+
+function attend_(b, c) {
+  var st = attendState_(c);
+  if (!st.open) return { ok: false, error: st.label };
+  var name = clean_(b.name, 40), email = clean_(b.email, 120).toLowerCase(), school = clean_(b.school, 80), phone = phone_(b.phone);
+  if (!name || !school || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return { ok: false, error: '입력값을 확인해 주세요.' };
+  if (phone && !/^\d{2,4}-?\d{3,4}-\d{4}$/.test(phone)) return { ok: false, error: '전화번호를 확인해 주세요.' };
+  var t = today_(), ses = todaySession_(c.id);
+  return withLock_(function () {
+    var dup = read_('attend').rows.some(function (r) { return r.course === c.id && r.date === t && (r.email || '').toLowerCase() === email; });
+    if (dup) return { ok: false, error: '오늘은 이미 출석하셨어요.' };
+    var applied = read_('apps').rows.some(function (a) { return a.course === c.id && (a.email || '').toLowerCase() === email && a.status !== '취소'; });
+    var at = now_();
+    appendObj_('attend', { course: c.id, week: ses ? ses.week : '', date: t, at: at, name: name, email: email, school: school, phone: phone, applied: applied ? '예' : '아니오', how: '본인' });
+    return { ok: true, mode: '출석', week: ses ? ses.week : '', time: at.slice(11) };
+  });
+}
+
+// 관리자 출석부: 회차 × 사람
+function attendBook_(courseId) {
+  var c = findCourse_(courseId);
+  if (!c) throw new Error('연수를 고르세요.');
+  return {
+    ok: true,
+    sessions: read_('sessions').rows.filter(function (r) { return r.course === c.id; }).map(function (r) { return { week: r.week, date: r.date, title: r.title }; }),
+    records: read_('attend').rows.filter(function (r) { return r.course === c.id; }).map(strip_),
+    roster: read_('apps').rows.filter(function (a) { return a.course === c.id && a.status !== '취소'; })
+      .map(function (a) { return { name: a.name, email: (a.email || '').toLowerCase(), school: a.school, phone: a.phone, status: a.status }; }),
+    formMode: mode_(c), completion: c.completion
+  };
+}
+
 // 참가자 탭: 학교 메일 기준 누적 집계 (신청 탭에서 다시 계산)
 function refreshPeople_() {
   var apps = read_('apps').rows, by = {};
@@ -428,7 +483,7 @@ function refreshPeople_() {
 /* ============ 관리자 ============ */
 
 var SETTINGS_EDITABLE = ['siteTitle', 'brandName', 'brandInitials', 'adminPassword', 'currentCourse', 'notifyEmail', 'contactPlace', 'contactPhone', 'footerText', 'privacyNotice'];
-var COURSE_EDITABLE = ['roomShow', 'roomLabel', 'roomUrl', 'overview', 'status', 'name', 'eyebrow', 'title1', 'title2', 'lead', 'period', 'time', 'credit', 'place', 'capacity', 'openAt', 'closeAt', 'applyText', 'courseLead', 'voicesLead', 'completion'];
+var COURSE_EDITABLE = ['formMode', 'attendText', 'roomShow', 'roomLabel', 'roomUrl', 'overview', 'status', 'name', 'eyebrow', 'title1', 'title2', 'lead', 'period', 'time', 'credit', 'place', 'capacity', 'openAt', 'closeAt', 'applyText', 'courseLead', 'voicesLead', 'completion'];
 
 function adminSettings_() {
   var s = settings_(), o = {};
@@ -493,6 +548,7 @@ function admin_(b) {
         if (k === 'status' && COURSE_STATUS.indexOf(v) < 0) return;
         if (k === 'capacity') v = String(parseInt(v, 10) || 0);
         if (k === 'roomShow') v = v === '예' ? '예' : '아니오';
+        if (k === 'formMode') v = v === '출석' ? '출석' : '신청';
         if (k === 'roomUrl' && v && !/^https?:\/\/\S+$/.test(v)) throw new Error('연수실 주소는 https:// 로 시작해야 해요.');
         if ((k === 'openAt' || k === 'closeAt') && v && !/^\d{4}-\d{2}-\d{2}$/.test(v)) throw new Error('날짜는 2026-12-20 형식으로 입력하세요.');
         upd[k] = v;
@@ -549,6 +605,30 @@ function admin_(b) {
   }
 
   if (op === 'apps') return { ok: true, applications: apps_(b.course), statuses: APP_STATUS, courses: courseList_(), sheetUrl: SS_().getUrl() };
+
+  if (op === 'attend') return attendBook_(b.course);
+
+  // 출석부 칸을 눌러 출석을 넣거나 뺍니다 (관리자 기록)
+  if (op === 'setAttend') {
+    var c2 = findCourse_(b.course);
+    if (!c2) return { ok: false, error: '연수를 고르세요.' };
+    var em = clean_(b.email, 120).toLowerCase(), wk = clean_(b.week, 40);
+    if (!em || !wk) return { ok: false, error: '사람과 회차를 확인해 주세요.' };
+    withLock_(function () {
+      var same = function (r) { return r.course === c2.id && (r.email || '').toLowerCase() === em && r.week === wk; };
+      if (!b.on) { replaceRows_('attend', function (r) { return !same(r); }, []); return; }
+      if (read_('attend').rows.some(same)) return;
+      var who = null;
+      read_('apps').rows.forEach(function (a) { if (a.course === c2.id && (a.email || '').toLowerCase() === em) who = a; });
+      if (!who) read_('attend').rows.forEach(function (r) { if (r.course === c2.id && (r.email || '').toLowerCase() === em) who = r; });
+      if (!who) throw new Error('명단에 없는 사람입니다.');
+      var ses = null;
+      read_('sessions').rows.forEach(function (r) { if (r.course === c2.id && r.week === wk) ses = r; });
+      appendObj_('attend', { course: c2.id, week: wk, date: ses && ses.date ? ses.date : today_(), at: now_(), name: who.name, email: em, school: who.school, phone: who.phone,
+        applied: read_('apps').rows.some(function (a) { return a.course === c2.id && (a.email || '').toLowerCase() === em && a.status !== '취소'; }) ? '예' : '아니오', how: '관리자' });
+    });
+    return attendBook_(b.course);
+  }
 
   if (op === 'updateApp') {
     withLock_(function () {
