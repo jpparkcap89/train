@@ -21,8 +21,8 @@ var SHEET_ID = '1WTw_gJ-Aqgn6a7sgcs99Dbf98ZfnxUI0TViGzMnKfEk';
 function SS_() { return SHEET_ID ? SpreadsheetApp.openById(SHEET_ID) : SpreadsheetApp.getActiveSpreadsheet(); }
 
 var T = {
-  courses: { name: '연수', cols: [['id', '연수 ID'], ['status', '상태'], ['name', '연수명'], ['eyebrow', '라벨'], ['title1', '제목 첫 줄'], ['title2', '제목 둘째 줄'], ['lead', '소개'], ['period', '기간'], ['time', '시간'], ['credit', '이수'], ['place', '장소'], ['capacity', '정원'], ['openAt', '신청 시작일'], ['closeAt', '신청 마감일'], ['applyText', '신청 안내'], ['courseLead', '과정 설명'], ['voicesLead', '후기 설명'], ['completion', '이수 기준'], ['createdAt', '만든 날'], ['overview', '연수 개요']],
-             widths: [110, 80, 220, 220, 220, 200, 360, 200, 170, 150, 200, 60, 100, 100, 320, 280, 280, 220, 100, 420] },
+  courses: { name: '연수', cols: [['id', '연수 ID'], ['status', '상태'], ['name', '연수명'], ['eyebrow', '라벨'], ['title1', '제목 첫 줄'], ['title2', '제목 둘째 줄'], ['lead', '소개'], ['period', '기간'], ['time', '시간'], ['credit', '이수'], ['place', '장소'], ['capacity', '정원'], ['openAt', '신청 시작일'], ['closeAt', '신청 마감일'], ['applyText', '신청 안내'], ['courseLead', '과정 설명'], ['voicesLead', '후기 설명'], ['completion', '이수 기준'], ['createdAt', '만든 날'], ['overview', '연수 개요'], ['roomShow', '연수실 버튼 표시'], ['roomLabel', '연수실 버튼 문구'], ['roomUrl', '연수실 주소']],
+             widths: [110, 80, 220, 220, 220, 200, 360, 200, 170, 150, 200, 60, 100, 100, 320, 280, 280, 220, 100, 420, 110, 160, 300] },
   sessions: { name: '회차', cols: [['course', '연수 ID'], ['week', '회차'], ['date', '날짜'], ['title', '제목'], ['desc', '설명'], ['time', '시간']], widths: [110, 70, 100, 260, 300, 80] },
   topics: { name: '세부과정', cols: [['course', '연수 ID'], ['topic', '주제 (탭 이름)'], ['title', '제목'], ['meta', '부가 정보'], ['time', '시간']], widths: [110, 120, 240, 160, 80] },
   features: { name: '특징', cols: [['course', '연수 ID (비우면 공통)'], ['icon', '아이콘'], ['title', '제목'], ['text', '설명 (**굵게** 가능)']], widths: [150, 70, 180, 440] },
@@ -323,7 +323,8 @@ function courseData_(id, admin) {
     settings: (function () { var o = siteSettings_(s); o.applyOpen = st.open; o.applyLabel = st.label; o.capacity = cap; o.deadlineText = c.applyText; return o; })(),
     archiveCount: archive_().length,
     content: { eyebrow: c.eyebrow, title1: c.title1, title2: c.title2, lead: c.lead, factPeriod: c.period, factTime: c.time,
-               factCredit: c.credit, factPlace: c.place, courseLead: c.courseLead, voicesLead: c.voicesLead },
+               factCredit: c.credit, factPlace: c.place, courseLead: c.courseLead, voicesLead: c.voicesLead,
+               room: c.roomShow === '예' && /^https?:\/\//.test(c.roomUrl) ? { label: c.roomLabel || '연수실 입장하기', url: c.roomUrl } : null },
     features: read_('features').rows.filter(mineOrCommon).map(strip_),
     weeks: read_('sessions').rows.filter(mine).map(strip_),
     topics: read_('topics').rows.filter(mine).map(strip_),
@@ -427,7 +428,7 @@ function refreshPeople_() {
 /* ============ 관리자 ============ */
 
 var SETTINGS_EDITABLE = ['siteTitle', 'brandName', 'brandInitials', 'adminPassword', 'currentCourse', 'notifyEmail', 'contactPlace', 'contactPhone', 'footerText', 'privacyNotice'];
-var COURSE_EDITABLE = ['overview', 'status', 'name', 'eyebrow', 'title1', 'title2', 'lead', 'period', 'time', 'credit', 'place', 'capacity', 'openAt', 'closeAt', 'applyText', 'courseLead', 'voicesLead', 'completion'];
+var COURSE_EDITABLE = ['roomShow', 'roomLabel', 'roomUrl', 'overview', 'status', 'name', 'eyebrow', 'title1', 'title2', 'lead', 'period', 'time', 'credit', 'place', 'capacity', 'openAt', 'closeAt', 'applyText', 'courseLead', 'voicesLead', 'completion'];
 
 function adminSettings_() {
   var s = settings_(), o = {};
@@ -491,6 +492,8 @@ function admin_(b) {
         var v = clean_(b.values[k], k === 'overview' ? 20000 : 2000);
         if (k === 'status' && COURSE_STATUS.indexOf(v) < 0) return;
         if (k === 'capacity') v = String(parseInt(v, 10) || 0);
+        if (k === 'roomShow') v = v === '예' ? '예' : '아니오';
+        if (k === 'roomUrl' && v && !/^https?:\/\/\S+$/.test(v)) throw new Error('연수실 주소는 https:// 로 시작해야 해요.');
         if ((k === 'openAt' || k === 'closeAt') && v && !/^\d{4}-\d{2}-\d{2}$/.test(v)) throw new Error('날짜는 2026-12-20 형식으로 입력하세요.');
         upd[k] = v;
       });
