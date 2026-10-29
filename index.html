@@ -331,6 +331,8 @@ body.is-admin footer{padding-bottom:110px}
 .ed-f small{display:block;margin-top:2px;font-size:12px;color:var(--ux-ink-3)}
 .ed-f input,.ed-f textarea,.ed-f select,.ed-row input,.ed-row textarea{width:100%;margin-top:6px;padding:10px 12px;border:0;border-radius:10px;background:var(--ux-surface-2);box-shadow:inset 0 0 0 1.5px var(--ux-line);color:var(--ink);font:inherit;font-size:14.5px;line-height:1.5}
 .ed-f textarea,.ed-row textarea{min-height:84px;resize:vertical}
+.ed-row textarea.meta{min-height:110px}
+.u039-row small strong{color:var(--ink);font-weight:700}
 .ed-f select,.ed-row select{height:46px;padding:0 12px;line-height:normal}
 .ed-f input[type=date],.ed-f input[type=number],.ed-f input[type=text],.ed-f input[type=email],.ed-f input[type=password]{height:46px;line-height:normal}
 .ed-f input:focus,.ed-f textarea:focus,.ed-row input:focus,.ed-row textarea:focus{outline:none;box-shadow:inset 0 0 0 2px var(--primary)}
@@ -1009,6 +1011,8 @@ var SITEKIT = (function () {
     });
   }
   function md(v) { return linkify(esc(v)).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>'); }
+  // 세부과정 부가 정보: *굵게* 또는 **굵게**, 줄바꿈 그대로
+  function mdLite(v) { return md(v).replace(/\*([^*\n]+)\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>'); }
   function get(S, path) { return path.split('.').reduce(function (o, k) { return o ? o[k] : ''; }, S); }
 
   function post(body) {
@@ -1079,7 +1083,7 @@ var SITEKIT = (function () {
     (S.topics || []).forEach(function (t) {
       var i = labels.indexOf(t.topic);
       if (i < 0) { labels.push(t.topic); data.push([]); i = labels.length - 1; }
-      data[i].push([esc(t.title), esc(t.meta), esc(t.time), GR[data[i].length % 4]]);
+      data[i].push([esc(t.title), mdLite(t.meta), esc(t.time), GR[data[i].length % 4]]);
     });
     return { labels: labels, data: data };
   }
@@ -1358,7 +1362,7 @@ var SITEKIT = (function () {
     facts: { title: '연수 한눈에', fields: [F('course.period', '기간'), F('course.time', '시간'), F('course.credit', '이수'), F('course.place', '장소'), F('course.capacity', '정원', 'number', '0이면 정원·남은 자리를 숨깁니다')] },
     features: { title: '특징 카드', list: 'features', cols: [SCOPE, ['icon', '아이콘'], ['title', '제목'], ['text', '설명 (**굵게** 가능)', 'area']], hint: '"모든 연수 공통"으로 두면 다음 연수에도 그대로 보여요.' },
     course: { title: '회차별 연수 과정', fields: [F('course.courseLead', '섹션 설명', 'area')], list: 'sessions', cols: [['week', '회차'], ['date', '날짜', 'date'], ['title', '제목', 'wide'], ['desc', '설명'], ['time', '시간']] },
-    topics: { title: '주제별 세부 과정 (탭)', list: 'topics', cols: [['topic', '주제 (탭 이름)'], ['title', '제목', 'wide'], ['meta', '부가 정보'], ['time', '시간']], hint: '같은 주제끼리 한 탭으로 묶여요. 하나도 없으면 오른쪽 카드는 방문자에게 보이지 않아요.' },
+    topics: { title: '주제별 세부 과정 (탭)', list: 'topics', cols: [['topic', '주제 (탭 이름)'], ['title', '제목', 'wide'], ['meta', '부가 정보 (*굵게*, 줄바꿈 가능 · 오른쪽 아래 모서리로 크기 조절)', 'area'], ['time', '시간']], hint: '같은 주제끼리 한 탭으로 묶여요. 하나도 없으면 오른쪽 카드는 방문자에게 보이지 않아요.' },
     voices: { title: '후기·질문 섹션', fields: [F('course.voicesLead', '섹션 설명', 'area')] },
     reviews: { title: '이 연수의 후기', list: 'reviews', cols: [['show', '노출', 'select', ['예', '아니오']], ['quote', '후기 (*강조할 말*)', 'area'], ['name', '이름'], ['role', '소속']], hint: '이 연수에 후기가 없으면 다른 연수의 노출 후기가 대신 보여요. 연수가 끝난 뒤 받은 후기를 여기에 넣으면 지난 연수 보기에도 나옵니다.' },
     faq: { title: '자주 묻는 질문', list: 'faq', cols: [SCOPE, ['q', '질문', 'wide'], ['a', '답변', 'area'], ['linkText', '링크 문구'], ['target', '이동 위치', 'select', ['course', 'apply']]] },
@@ -1416,6 +1420,7 @@ var SITEKIT = (function () {
       var l = document.createElement('label'); l.textContent = c[1];
       var inp = control(c[2] || 'text', c[3], data ? data[c[0]] : (c[2] === 'scope' ? SITE.course.id : (c[3] ? c[3][0] : '')));
       inp.setAttribute('data-col', c[0]);
+      if (c[0] === 'meta' && inp.tagName === 'TEXTAREA') inp.classList.add('meta');
       l.appendChild(inp);
       if (c[2] === 'area' || c[2] === 'wide') l.style.gridColumn = '1 / -1';
       grid.appendChild(l);
