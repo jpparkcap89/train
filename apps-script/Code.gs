@@ -16,9 +16,13 @@
  * 열 제목(1행)은 바꾸지 마세요. 열 순서는 바꿔도 됩니다.
  */
 
+// 연결할 스프레드시트 ID (시트 주소 /d/ 와 /edit 사이). 시트에 붙인 스크립트라면 비워 둬도 됩니다.
+var SHEET_ID = '1WTw_gJ-Aqgn6a7sgcs99Dbf98ZfnxUI0TViGzMnKfEk';
+function SS_() { return SHEET_ID ? SpreadsheetApp.openById(SHEET_ID) : SpreadsheetApp.getActiveSpreadsheet(); }
+
 var T = {
-  courses: { name: '연수', cols: [['id', '연수 ID'], ['status', '상태'], ['name', '연수명'], ['eyebrow', '라벨'], ['title1', '제목 첫 줄'], ['title2', '제목 둘째 줄'], ['lead', '소개'], ['period', '기간'], ['time', '시간'], ['credit', '이수'], ['place', '장소'], ['capacity', '정원'], ['openAt', '신청 시작일'], ['closeAt', '신청 마감일'], ['applyText', '신청 안내'], ['courseLead', '과정 설명'], ['voicesLead', '후기 설명'], ['completion', '이수 기준'], ['createdAt', '만든 날']],
-             widths: [110, 80, 220, 220, 220, 200, 360, 200, 170, 150, 200, 60, 100, 100, 320, 280, 280, 220, 100] },
+  courses: { name: '연수', cols: [['id', '연수 ID'], ['status', '상태'], ['name', '연수명'], ['eyebrow', '라벨'], ['title1', '제목 첫 줄'], ['title2', '제목 둘째 줄'], ['lead', '소개'], ['period', '기간'], ['time', '시간'], ['credit', '이수'], ['place', '장소'], ['capacity', '정원'], ['openAt', '신청 시작일'], ['closeAt', '신청 마감일'], ['applyText', '신청 안내'], ['courseLead', '과정 설명'], ['voicesLead', '후기 설명'], ['completion', '이수 기준'], ['createdAt', '만든 날'], ['overview', '연수 개요']],
+             widths: [110, 80, 220, 220, 220, 200, 360, 200, 170, 150, 200, 60, 100, 100, 320, 280, 280, 220, 100, 420] },
   sessions: { name: '회차', cols: [['course', '연수 ID'], ['week', '회차'], ['date', '날짜'], ['title', '제목'], ['desc', '설명'], ['time', '시간']], widths: [110, 70, 100, 260, 300, 80] },
   topics: { name: '세부과정', cols: [['course', '연수 ID'], ['topic', '주제 (탭 이름)'], ['title', '제목'], ['meta', '부가 정보'], ['time', '시간']], widths: [110, 120, 240, 160, 80] },
   features: { name: '특징', cols: [['course', '연수 ID (비우면 공통)'], ['icon', '아이콘'], ['title', '제목'], ['text', '설명 (**굵게** 가능)']], widths: [150, 70, 180, 440] },
@@ -39,7 +43,7 @@ var DEFAULT_PRIVACY = '수집 항목: 이름, 학교 메일, 소속 학교, 전�
 /* ============ 처음 설정 ============ */
 
 function setup() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SS_();
   var id = '2027-W01';
   var pw = Math.random().toString(36).slice(2, 10);
 
@@ -114,7 +118,7 @@ function setup() {
 }
 
 function makeTable_(key, rows) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet(), t = T[key];
+  var ss = SS_(), t = T[key];
   if (ss.getSheetByName(t.name)) return;                     // 이미 있으면 그대로 둡니다
   var sh = ss.insertSheet(t.name);
   var header = t.cols.map(function (c) { return c[1]; });
@@ -139,7 +143,7 @@ function validate_(key, field, list) {
   var i = colIndex_(T[key], field);
   if (i < 0) return;
   var rule = SpreadsheetApp.newDataValidation().requireValueInList(list, true).setAllowInvalid(false).build();
-  SpreadsheetApp.getActiveSpreadsheet().getSheetByName(T[key].name).getRange(2, i + 1, 999, 1).setDataValidation(rule);
+  SS_().getSheetByName(T[key].name).getRange(2, i + 1, 999, 1).setDataValidation(rule);
 }
 
 function colIndex_(t, field) {
@@ -161,7 +165,7 @@ function cell_(v) {
 }
 
 function sheetOf_(key) {
-  var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(T[key].name);
+  var sh = SS_().getSheetByName(T[key].name);
   if (!sh) throw new Error('"' + T[key].name + '" 탭이 없습니다. setup을 먼저 실행하세요.');
   return sh;
 }
@@ -174,6 +178,17 @@ function read_(key) {
   var head = all[0].map(function (h) { return String(h).trim(); });
   var pos = {};
   t.cols.forEach(function (c) { pos[c[0]] = head.indexOf(c[1]); });
+  // 새 버전에서 생긴 열(예: 연수 개요)이 시트에 없으면 맨 오른쪽에 제목을 추가합니다
+  var used = sh.getLastColumn();
+  t.cols.forEach(function (c) {
+    if (pos[c[0]] >= 0) return;
+    sh.getRange(1, used + 1).setValue(c[1]).setFontWeight('bold').setBackground('#e8eefc').setFontColor('#24324a');
+    pos[c[0]] = used; used++;
+  });
+  if (used > width) {
+    width = used;
+    all = all.map(function (row) { while (row.length < width) row.push(''); return row; });
+  }
   var rows = [];
   for (var r = 1; r < all.length; r++) {
     var o = { _row: r + 1 }, empty = true;
@@ -221,7 +236,7 @@ function replaceRows_(key, keep, newObjs) {
 }
 
 function settings_() {
-  var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SETTINGS_TAB);
+  var sh = SS_().getSheetByName(SETTINGS_TAB);
   if (!sh) throw new Error('Settings 탭이 없습니다. setup을 먼저 실행하세요.');
   var o = {};
   sh.getDataRange().getValues().slice(1).forEach(function (r) { if (String(r[0]).trim()) o[String(r[0]).trim()] = cell_(r[1]); });
@@ -230,7 +245,7 @@ function settings_() {
 function setting_(k) { return settings_()[k]; }
 
 function setSetting_(k, v) {
-  var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SETTINGS_TAB);
+  var sh = SS_().getSheetByName(SETTINGS_TAB);
   var vals = sh.getDataRange().getValues(), at = -1;
   for (var i = 1; i < vals.length; i++) if (String(vals[i][0]).trim() === k) at = i + 1;
   if (at > 0) sh.getRange(at, 2).setValue(safe_(v)); else sh.appendRow([k, safe_(v), '']);
@@ -304,7 +319,7 @@ function courseData_(id, admin) {
   var own = reviews.filter(mine);
   return {
     ok: true,
-    course: { id: c.id, name: c.name, status: c.status, openAt: c.openAt, closeAt: c.closeAt, completion: c.completion, isCurrent: c.id === s.currentCourse },
+    course: { id: c.id, name: c.name, overview: c.overview, status: c.status, openAt: c.openAt, closeAt: c.closeAt, completion: c.completion, isCurrent: c.id === s.currentCourse },
     settings: (function () { var o = siteSettings_(s); o.applyOpen = st.open; o.applyLabel = st.label; o.capacity = cap; o.deadlineText = c.applyText; return o; })(),
     archiveCount: archive_().length,
     content: { eyebrow: c.eyebrow, title1: c.title1, title2: c.title2, lead: c.lead, factPeriod: c.period, factTime: c.time,
@@ -325,7 +340,7 @@ function archive_() {
   var sessions = read_('sessions').rows;
   return read_('courses').rows.filter(function (c) { return c.status === '종료'; }).reverse().map(function (c) {
     return {
-      id: c.id, name: c.name, eyebrow: c.eyebrow, title1: c.title1, title2: c.title2, lead: c.lead,
+      id: c.id, name: c.name, overview: c.overview, eyebrow: c.eyebrow, title1: c.title1, title2: c.title2, lead: c.lead,
       period: c.period, time: c.time, credit: c.credit, place: c.place,
       sessions: sessions.filter(function (x) { return x.course === c.id; }).map(function (x) { return { week: x.week, title: x.title }; }),
       reviews: reviews.filter(function (r) { return r.course === c.id; }).map(function (r) { return { quote: r.quote, name: r.name, role: r.role }; })
@@ -385,7 +400,7 @@ function apply_(b) {
     try {
       MailApp.sendEmail(s.notifyEmail, '[' + c.name + '] 새 신청: ' + name + ' (' + school + ')',
         '연수: ' + c.name + ' (' + c.id + ')\n이름: ' + name + '\n학교 메일: ' + email + '\n소속: ' + school +
-        '\n전화: ' + (phone || '-') + '\n상태: ' + res.status + '\n\n시트: ' + SpreadsheetApp.getActiveSpreadsheet().getUrl());
+        '\n전화: ' + (phone || '-') + '\n상태: ' + res.status + '\n\n시트: ' + SS_().getUrl());
     } catch (err) { /* 메일이 실패해도 신청은 저장됩니다 */ }
   }
   var cap2 = parseInt(c.capacity, 10) || 0, applied = countActive_(c.id);
@@ -412,7 +427,7 @@ function refreshPeople_() {
 /* ============ 관리자 ============ */
 
 var SETTINGS_EDITABLE = ['siteTitle', 'brandName', 'brandInitials', 'adminPassword', 'currentCourse', 'notifyEmail', 'contactPlace', 'contactPhone', 'footerText', 'privacyNotice'];
-var COURSE_EDITABLE = ['status', 'name', 'eyebrow', 'title1', 'title2', 'lead', 'period', 'time', 'credit', 'place', 'capacity', 'openAt', 'closeAt', 'applyText', 'courseLead', 'voicesLead', 'completion'];
+var COURSE_EDITABLE = ['overview', 'status', 'name', 'eyebrow', 'title1', 'title2', 'lead', 'period', 'time', 'credit', 'place', 'capacity', 'openAt', 'closeAt', 'applyText', 'courseLead', 'voicesLead', 'completion'];
 
 function adminSettings_() {
   var s = settings_(), o = {};
@@ -473,7 +488,7 @@ function admin_(b) {
       var upd = {};
       Object.keys(b.values || {}).forEach(function (k) {
         if (COURSE_EDITABLE.indexOf(k) < 0) return;
-        var v = clean_(b.values[k], 2000);
+        var v = clean_(b.values[k], k === 'overview' ? 20000 : 2000);
         if (k === 'status' && COURSE_STATUS.indexOf(v) < 0) return;
         if (k === 'capacity') v = String(parseInt(v, 10) || 0);
         if ((k === 'openAt' || k === 'closeAt') && v && !/^\d{4}-\d{2}-\d{2}$/.test(v)) throw new Error('날짜는 2026-12-20 형식으로 입력하세요.');
@@ -512,7 +527,7 @@ function admin_(b) {
     var prevId = setting_('currentCourse'), prev = findCourse_(prevId);
     withLock_(function () {
       var o = { id: id, createdAt: today_() };
-      COURSE_EDITABLE.forEach(function (k) { o[k] = clean_(v[k], 2000); });
+      COURSE_EDITABLE.forEach(function (k) { o[k] = clean_(v[k], k === 'overview' ? 20000 : 2000); });
       if (COURSE_STATUS.indexOf(o.status) < 0 || o.status === '종료') o.status = '준비';
       o.capacity = String(parseInt(o.capacity, 10) || 0);
       ['openAt', 'closeAt'].forEach(function (k) { if (o[k] && !/^\d{4}-\d{2}-\d{2}$/.test(o[k])) o[k] = ''; });
@@ -530,7 +545,7 @@ function admin_(b) {
     return { ok: true, id: id, archived: prev ? prev.id : '', courses: courseList_(), settings: adminSettings_() };
   }
 
-  if (op === 'apps') return { ok: true, applications: apps_(b.course), statuses: APP_STATUS, courses: courseList_(), sheetUrl: SpreadsheetApp.getActiveSpreadsheet().getUrl() };
+  if (op === 'apps') return { ok: true, applications: apps_(b.course), statuses: APP_STATUS, courses: courseList_(), sheetUrl: SS_().getUrl() };
 
   if (op === 'updateApp') {
     withLock_(function () {
