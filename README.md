@@ -23,7 +23,13 @@
 
 ## 처음 한 번 설정하기
 
-### 1. 시트에 Apps Script 붙이기
+### 지금 연결된 곳
+- 시트: jppark@cap89.com 드라이브의 **'연수 관리'** (https://docs.google.com/spreadsheets/d/1WTw_gJ-Aqgn6a7sgcs99Dbf98ZfnxUI0TViGzMnKfEk/edit)
+- Apps Script: **'연수 관리 백엔드'** 프로젝트 (script.google.com, 시트와 별도로 있고 `SHEET_ID`로 시트를 엽니다)
+- 웹 앱 주소는 `index.html`의 `API_URL`에 들어 있어요.
+
+### 1. 시트에 Apps Script 붙이기 (새로 설치할 때)
+> 시트에 붙이지 않고 script.google.com에서 새 프로젝트로 만들어도 됩니다. 그때는 `Code.gs` 위쪽 `SHEET_ID`에 시트 ID를 넣으세요.
 1. '연수 관리' 시트를 엽니다.
 2. 메뉴 **확장 프로그램 → Apps Script**를 누릅니다.
 3. 편집기 내용을 모두 지우고 `apps-script/Code.gs`를 통째로 붙여 넣은 뒤 저장(💾)합니다.
