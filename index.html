@@ -1211,6 +1211,18 @@ var SITEKIT = (function () {
       done: function () {
         clearInterval(timer); clearInterval(msgTimer); set(100); say('준비가 끝났어요. 어서 오세요!');
         setTimeout(function () { document.body.classList.remove('is-loading'); }, 450);
+      },
+      // 시트 연결이 안 될 때: 예시 내용을 보여 주지 않고 다시 시도하게 합니다
+      fail: function () {
+        clearInterval(timer); clearInterval(msgTimer);
+        var card = document.querySelector('.ld-card');
+        $('ld').style.pointerEvents = 'auto';
+        card.querySelector('.ld-title').textContent = '연결이 잠시 늦어지고 있어요';
+        card.querySelector('.ld-sub').textContent = '잠시 뒤 다시 불러와 주세요. 계속 안 되면 문의처로 연락해 주세요.';
+        pct.hidden = true; fill.parentNode.hidden = true;
+        var b = document.createElement('button'); b.type = 'button'; b.className = 'btn primary'; b.textContent = '다시 불러오기';
+        b.style.margin = '0 auto'; b.addEventListener('click', function () { location.reload(); });
+        msg.replaceWith(b);
       }
     };
   })();
@@ -1219,13 +1231,14 @@ var SITEKIT = (function () {
   if (!API_URL) { document.body.classList.remove('is-loading'); start(DEFAULT); }
   else {
     loader.begin();
-    var timeout = new Promise(function (_, rej) { setTimeout(function () { rej(new Error('시트 응답이 늦어요')); }, 10000); });
+    var timeout = new Promise(function (_, rej) { setTimeout(function () { rej(new Error('시트 응답이 늦어요')); }, 20000); });
     var load = pw
       ? adminCall({ op: 'view', course: VIEW }).then(function (r) { setAdmin(true); return r.data; }).catch(function () { return publicLoad(); })
       : publicLoad();
     Promise.race([load, timeout]).then(function (S) { start(S); loader.done(); if (location.hash === '#overview' && S.course && S.course.overview) setTimeout(openOverview, 500); }).catch(function (e) {
-      loader.done();
       console.warn(e);
+      if (!VIEW) { loader.fail(); return; }
+      loader.done();
       if (VIEW) { $('viewing').hidden = false; $('viewing').textContent = e.message + ' · '; var a = document.createElement('a'); a.href = location.pathname; a.textContent = '진행 중인 연수 보기 →'; $('viewing').appendChild(a); }
       start(DEFAULT);
     });
