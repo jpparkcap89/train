@@ -269,6 +269,7 @@ body.is-admin #ov .ov-edit{display:inline-flex}
 .lnk:focus-visible{outline:2px solid var(--primary);outline-offset:2px;border-radius:6px}
 .btn.room-btn{border-color:var(--pill-line);color:var(--ink)}
 .btn.room-btn:hover{color:var(--primary)}
+#course.split:has(> [hidden]){grid-template-columns:minmax(0,1fr)}
 [hidden]{display:none!important}
 @media (min-width:1025px){.wrap{max-width:none;width:85%;padding-left:0;padding-right:0}}
 .stage{min-height:200px}
@@ -489,6 +490,7 @@ body.is-admin footer{padding-bottom:110px}
 (function () {
   var root = document.currentScript.previousElementSibling;
   window.LXQ.push(function (SITE) {
+  if (!SITE.topics || !SITE.topics.length) { root.innerHTML = '<p style="margin:auto;padding:40px 20px;text-align:center;color:var(--ux-ink-3);font-size:14px">주제별 세부 과정이 아직 없어요. ✏️로 추가하면 여기에 탭으로 보여요.</p>'; return; }
   var DATA = SITEKIT.tabs039(root, SITE);
   var tabs = Array.prototype.slice.call(root.querySelectorAll('.u039-tab'));
   var pill = root.querySelector('.u039-pill');
@@ -1042,6 +1044,8 @@ var SITEKIT = (function () {
     document.querySelectorAll('.when-course').forEach(function (el) { el.hidden = prep; });
     document.getElementById('prep').hidden = !prep;
     document.getElementById('past-link').hidden = !(S.archiveCount > 0);
+    var tpCard = document.querySelector('[data-edit="topics"]');
+    if (tpCard) tpCard.hidden = !prep && !(S.topics && S.topics.length) && !document.body.classList.contains('is-admin');
     var rvCard = document.querySelector('[data-edit="reviews"]');
     var hasRv = !!(S.reviews && S.reviews.length);
     if (rvCard) rvCard.hidden = !prep && !hasRv && !document.body.classList.contains('is-admin');
@@ -1070,7 +1074,8 @@ var SITEKIT = (function () {
 
   // #039 탭: 첫 탭은 주차 전체, 나머지는 세부과정의 주제별
   function topics(S) {
-    var labels = ['전체'], data = [(S.weeks || []).map(function (w, k) { return [esc(w.title), esc(w.week + ' · ' + w.desc), esc(w.time), GR[k % 4]]; })];
+    // 회차 목록은 왼쪽에 이미 있으니, 오른쪽 탭은 세부과정의 주제별로만 만듭니다
+    var labels = [], data = [];
     (S.topics || []).forEach(function (t) {
       var i = labels.indexOf(t.topic);
       if (i < 0) { labels.push(t.topic); data.push([]); i = labels.length - 1; }
@@ -1353,7 +1358,7 @@ var SITEKIT = (function () {
     facts: { title: '연수 한눈에', fields: [F('course.period', '기간'), F('course.time', '시간'), F('course.credit', '이수'), F('course.place', '장소'), F('course.capacity', '정원', 'number', '0이면 정원·남은 자리를 숨깁니다')] },
     features: { title: '특징 카드', list: 'features', cols: [SCOPE, ['icon', '아이콘'], ['title', '제목'], ['text', '설명 (**굵게** 가능)', 'area']], hint: '"모든 연수 공통"으로 두면 다음 연수에도 그대로 보여요.' },
     course: { title: '회차별 연수 과정', fields: [F('course.courseLead', '섹션 설명', 'area')], list: 'sessions', cols: [['week', '회차'], ['date', '날짜', 'date'], ['title', '제목', 'wide'], ['desc', '설명'], ['time', '시간']] },
-    topics: { title: '주제별 세부 과정 (탭)', list: 'topics', cols: [['topic', '주제 (탭 이름)'], ['title', '제목', 'wide'], ['meta', '부가 정보'], ['time', '시간']], hint: '첫 탭 "전체"는 회차별 과정으로 자동으로 채워집니다. 같은 주제끼리 한 탭으로 묶여요.' },
+    topics: { title: '주제별 세부 과정 (탭)', list: 'topics', cols: [['topic', '주제 (탭 이름)'], ['title', '제목', 'wide'], ['meta', '부가 정보'], ['time', '시간']], hint: '같은 주제끼리 한 탭으로 묶여요. 하나도 없으면 오른쪽 카드는 방문자에게 보이지 않아요.' },
     voices: { title: '후기·질문 섹션', fields: [F('course.voicesLead', '섹션 설명', 'area')] },
     reviews: { title: '이 연수의 후기', list: 'reviews', cols: [['show', '노출', 'select', ['예', '아니오']], ['quote', '후기 (*강조할 말*)', 'area'], ['name', '이름'], ['role', '소속']], hint: '이 연수에 후기가 없으면 다른 연수의 노출 후기가 대신 보여요. 연수가 끝난 뒤 받은 후기를 여기에 넣으면 지난 연수 보기에도 나옵니다.' },
     faq: { title: '자주 묻는 질문', list: 'faq', cols: [SCOPE, ['q', '질문', 'wide'], ['a', '답변', 'area'], ['linkText', '링크 문구'], ['target', '이동 위치', 'select', ['course', 'apply']]] },
