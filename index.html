@@ -230,8 +230,8 @@ body.is-loading .ld{opacity:1;visibility:visible}
 .ov-card{max-width:880px;margin:0 auto}
 .ov-kicker{margin:0 0 4px;font-size:12.5px;font-weight:800;letter-spacing:.06em;color:var(--primary)}
 .ov-card h2{font-size:clamp(19px,2.6vw,24px);line-height:1.35;text-wrap:balance}
-.ov-edit{display:none;flex:none}
-body.is-admin .ov-edit{display:inline-flex}
+.adm .ov-edit{display:none;flex:none}
+body.is-admin .adm .ov-edit{display:inline-flex}
 .ov-body{margin-top:18px;display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
 .ov-sec{min-width:0}
 .ov-sec{padding:18px 20px;border-radius:18px;background:var(--ux-surface-2);box-shadow:inset 0 0 0 1px var(--ux-line)}
@@ -404,7 +404,7 @@ body.is-admin footer{padding-bottom:110px}
   <header class="top">
     <a class="brand" href="#top" id="top"><span class="mark" data-k="settings.brandInitials">JP</span><span data-k="settings.brandName">JP Park 연수실</span></a>
     <nav class="links" aria-label="페이지 메뉴">
-      <a href="#overview" id="ov-link" hidden>연수 개요</a><a href="#course" class="when-course">과정</a><a href="#voices" class="when-course">후기·질문</a><a href="#apply" class="when-course">신청</a><a href="#past" id="past-link" hidden>지난 연수</a>
+      <a href="#overview" id="ov-link" hidden>연수 개요</a><a href="#course" class="when-course">과정</a><a href="#voices" class="when-course" id="voices-link">후기·질문</a><a href="#apply" class="when-course">신청</a><a href="#past" id="past-link" hidden>지난 연수</a>
     </nav>
   </header>
 
@@ -544,7 +544,7 @@ body.is-admin footer{padding-bottom:110px}
 
   <section class="when-course block" id="voices">
     <div class="voices-head" data-edit="voices"><div class="label">VOICES &amp; FAQ</div>
-    <h2 class="sec">💬 먼저 들은 선생님들의 이야기</h2>
+    <h2 class="sec" id="voices-title">💬 먼저 들은 선생님들의 이야기</h2>
     <p class="sec-lead" data-k="content.voicesLead"></p></div>
     <div class="duo">
       <div class="glass stage" data-edit="reviews"><h3>참여 후기</h3>
@@ -1028,7 +1028,10 @@ var SITEKIT = (function () {
     document.getElementById('prep').hidden = !prep;
     document.getElementById('past-link').hidden = !(S.archiveCount > 0);
     var rvCard = document.querySelector('[data-edit="reviews"]');
-    if (rvCard) rvCard.hidden = !prep && !(S.reviews && S.reviews.length) && !document.body.classList.contains('is-admin');
+    var hasRv = !!(S.reviews && S.reviews.length);
+    if (rvCard) rvCard.hidden = !prep && !hasRv && !document.body.classList.contains('is-admin');
+    document.getElementById('voices-title').textContent = hasRv ? '💬 먼저 들은 선생님들의 이야기' : '💬 자주 묻는 질문';
+    document.getElementById('voices-link').textContent = hasRv ? '후기·질문' : '자주 묻는 질문';
     document.getElementById('ov-link').hidden = prep || !(S.course && (S.course.overview || document.body.classList.contains('is-admin')));
     document.getElementById('prep-past').hidden = !(S.archiveCount > 0);
     document.querySelectorAll('[data-k]').forEach(function (el) { el.textContent = get(S, el.getAttribute('data-k')) || ''; });
